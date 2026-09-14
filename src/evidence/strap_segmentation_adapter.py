@@ -35,7 +35,7 @@ def segment_straps(image_path, confidence=0.25):
     results = model.predict(
         source=image_path,
         conf=confidence,
-        device=0,
+        device="cpu",
         verbose=False,
     )
 

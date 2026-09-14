@@ -37,7 +37,7 @@ def classify_view(image_path: str):
 
     results = model.predict(
         source=image_path,
-        device=0,
+        device="cpu",
         verbose=False,
     )
 

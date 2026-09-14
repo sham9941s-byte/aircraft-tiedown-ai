@@ -26,7 +26,7 @@ def segment_bbox(image_path, bbox):
     results = model.predict(
         source=image_path,
         bboxes=[bbox],
-        device=0,
+        device="cpu",
         verbose=False,
     )
 

@@ -25,6 +25,11 @@ def inspection_page():
     return FileResponse(STATIC_DIR / "inspection.html")
 
 
+@app.get("/training.html")
+def training_page():
+    return FileResponse(STATIC_DIR / "training.html")
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -53,6 +58,7 @@ async def assess(
     temp_paths = []
 
     for index, image in enumerate(images, start=1):
+
         if (
             not image.content_type
             or not image.content_type.startswith("image/")
@@ -62,7 +68,10 @@ async def assess(
                 detail=f"File {image.filename} is not an image.",
             )
 
-        filename = Path(image.filename or f"image_{index}.jpg").name
+        filename = Path(
+            image.filename or f"image_{index}.jpg"
+        ).name
+
         path = DATA_DIR / f"tmp_{index}_{filename}"
 
         with open(path, "wb") as f:

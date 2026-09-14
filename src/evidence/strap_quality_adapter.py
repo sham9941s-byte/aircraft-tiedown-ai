@@ -149,7 +149,7 @@ def classify_strap(
     results = model.predict(
         source=crop,
         imgsz=224,
-        device=0,
+        device="cpu",
         verbose=False,
     )
 
