@@ -3,9 +3,8 @@ opencv-python-headless
 pydantic
 fastapi
 uvicorn
-onnxruntime
-pytest
-pyyaml
 pandas
-ultralytics==8.4.146
+pyyaml
 python-multipart
+ultralytics==8.4.146
+pytest
