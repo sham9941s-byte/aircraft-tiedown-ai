@@ -24,6 +24,9 @@ app.include_router(training_router)
 def inspection_page():
     return FileResponse(STATIC_DIR / "inspection.html")
 
+@app.get("/inspection.html")
+def inspection_page_alias():
+    return FileResponse(STATIC_DIR / "inspection.html")
 
 @app.get("/training.html")
 def training_page():
