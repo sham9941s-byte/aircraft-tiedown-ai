@@ -6,3 +6,5 @@ uvicorn
 onnxruntime
 pytest
 pyyaml
+
+python-multipart
