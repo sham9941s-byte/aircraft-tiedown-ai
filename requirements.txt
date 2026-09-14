@@ -6,5 +6,6 @@ uvicorn
 onnxruntime
 pytest
 pyyaml
-
+pandas
+ultralytics==8.4.146
 python-multipart
