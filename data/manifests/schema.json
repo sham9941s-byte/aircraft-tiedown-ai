@@ -1,0 +1,74 @@
+{
+  "type": "object",
+  "required": [
+    "assessment_id",
+    "image_id",
+    "path",
+    "view",
+    "source",
+    "split"
+  ],
+  "properties": {
+    "assessment_id": {
+      "type": "string"
+    },
+    "image_id": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "view": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "engine_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "truck_configuration": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "suspension_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "tie_down_state": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "quality_label": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source": {
+      "enum": [
+        "synthetic",
+        "real"
+      ]
+    },
+    "split": {
+      "enum": [
+        "train",
+        "val",
+        "test"
+      ]
+    }
+  }
+}

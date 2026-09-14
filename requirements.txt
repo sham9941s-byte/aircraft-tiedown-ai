@@ -1,0 +1,8 @@
+numpy
+opencv-python
+pydantic
+fastapi
+uvicorn
+onnxruntime
+pytest
+pyyaml

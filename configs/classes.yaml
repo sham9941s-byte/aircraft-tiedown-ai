@@ -1,0 +1,19 @@
+views:
+  - left_side
+  - right_side
+  - full_trailer
+  - pneumatic_suspension
+  - unknown
+
+objects:
+  - engine
+  - trailer
+  - tie_down_region
+  - strap
+  - chain
+  - connection_point
+  - pneumatic_suspension
+
+quality:
+  - good
+  - bad

@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Vision Wings - Aircraft Engine Tie-Down Detector
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f3f6fa;
+
+            color: #16253d;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        header {
+
+            background: #10233f;
+
+            color: white;
+
+            padding: 26px 48px;
+        }
+
+
+        .header-inner {
+
+            max-width: 1180px;
+
+            margin: 0 auto;
+        }
+
+
+        header h1 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        header p {
+
+            margin: 7px 0 0;
+
+            color: #cbd7e7;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        main {
+
+            width:
+                min(
+                    1180px,
+                    calc(100% - 40px)
+                );
+
+            margin: 35px auto 60px;
+        }
+
+
+        .card {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 32px;
+
+            margin-bottom: 24px;
+
+            box-shadow:
+                0 6px 24px
+                rgba(16, 35, 63, 0.08);
+        }
+
+
+        .card-title {
+
+            margin: 0;
+
+            font-size: 23px;
+        }
+
+
+        .card-description {
+
+            margin: 8px 0 25px;
+
+            color: #64748b;
+
+            line-height: 1.5;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           UPLOAD AREA
+        ========================================= */
+
+        .upload-zone {
+
+            display: flex;
+
+            width: 100%;
+
+            min-height: 240px;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border:
+                2px dashed
+                #a8b6c8;
+
+            border-radius: 14px;
+
+            background: #f8fafc;
+
+            cursor: pointer;
+
+            text-align: center;
+
+            transition:
+                border-color 0.2s,
+                background 0.2s,
+                transform 0.2s;
+        }
+
+
+        .upload-zone:hover {
+
+            border-color: #2c67a5;
+
+            background: #f3f8ff;
+        }
+
+
+        .upload-zone.dragover {
+
+            border-color: #1769aa;
+
+            background: #eaf3ff;
+
+            transform: scale(1.005);
+        }
+
+
+        .upload-content {
+
+            width: 100%;
+
+            padding: 25px;
+        }
+
+
+        .upload-icon {
+
+            font-size: 48px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .upload-title {
+
+            margin: 0;
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+        .upload-subtitle {
+
+            margin: 9px 0 0;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        input[type="file"] {
+
+            display: none;
+        }
+
+
+        /* =========================================
+           FILE SELECTION
+        ========================================= */
+
+        .selection-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: 20px;
+
+            padding: 14px 16px;
+
+            border-radius: 10px;
+
+            background: #f1f5f9;
+        }
+
+
+        .selection-status {
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .file-count {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        #fileList {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-top: 14px;
+        }
+
+
+        .file-item {
+
+            min-width: 0;
+
+            padding: 11px 13px;
+
+            border:
+                1px solid
+                #e2e8f0;
+
+            border-radius: 9px;
+
+            background: white;
+
+            font-size: 13px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 22px;
+        }
+
+
+        button {
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 13px 24px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s,
+                transform 0.1s;
+        }
+
+
+        button:active {
+
+            transform:
+                translateY(1px);
+        }
+
+
+        .primary {
+
+            background: #1769aa;
+
+            color: white;
+        }
+
+
+        .primary:hover:not(:disabled) {
+
+            background: #12578d;
+        }
+
+
+        .primary:disabled {
+
+            background: #b6c2d1;
+
+            cursor: not-allowed;
+        }
+
+
+        .secondary {
+
+            background: #e7edf4;
+
+            color: #24344d;
+        }
+
+
+        .secondary:hover {
+
+            background: #dbe4ee;
+        }
+
+
+        /* =========================================
+           LOADING
+        ========================================= */
+
+        .loading {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            border-radius: 9px;
+
+            background: #eef5ff;
+
+            color: #1769aa;
+
+            font-weight: 600;
+
+            text-align: center;
+        }
+
+
+        .error {
+
+            margin-top: 15px;
+
+            color: #b42318;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           RESULT
+        ========================================= */
+
+        .result {
+
+            display: none;
+        }
+
+
+        .decision {
+
+            padding: 30px;
+
+            margin-bottom: 28px;
+
+            border-radius: 14px;
+
+            text-align: center;
+        }
+
+
+        .decision.good {
+
+            background: #e9f8ef;
+
+            border:
+                2px solid
+                #42a56f;
+        }
+
+
+        .decision.bad {
+
+            background: #fdecec;
+
+            border:
+                2px solid
+                #d9534f;
+        }
+
+
+        .decision.more {
+
+            background: #fff6df;
+
+            border:
+                2px solid
+                #d39b22;
+        }
+
+
+        .decision h2 {
+
+            margin: 0;
+
+            font-size: 31px;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        .decision p {
+
+            margin: 9px 0 0;
+
+            color: #526173;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           SECTION HEADINGS
+        ========================================= */
+
+        .section-heading {
+
+            margin: 28px 0 14px;
+
+            font-size: 18px;
+        }
+
+
+        /* =========================================
+           METRICS
+        ========================================= */
+
+        .metrics {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+        }
+
+
+        .metric {
+
+            padding: 18px;
+
+            border:
+                1px solid
+                #e1e7ef;
+
+            border-radius: 11px;
+
+            background: #f8fafc;
+        }
+
+
+        .metric-label {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .metric-value {
+
+            display: block;
+
+            margin-top: 7px;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            color: #16253d;
+        }
+
+
+        /* =========================================
+           VALIDATION CHECKS
+        ========================================= */
+
+        .checks {
+
+            display: grid;
+
+            gap: 10px;
+        }
+
+
+        .check {
+
+            padding: 14px 16px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .check.ok {
+
+            background: #eaf7ef;
+
+            color: #176b43;
+        }
+
+
+        .check.bad {
+
+            background: #fdecec;
+
+            color: #a52a26;
+        }
+
+
+        /* =========================================
+           DETECTED VIEWS
+        ========================================= */
+
+        .views {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .view {
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                #dce4ee;
+
+            border-radius: 12px;
+
+            background: white;
+
+            box-shadow:
+                0 3px 12px
+                rgba(16, 35, 63, 0.06);
+        }
+
+
+        .view-image {
+
+            display: block;
+
+            width: 100%;
+
+            height: 280px;
+
+            object-fit: cover;
+
+            background: #e9eef5;
+
+            cursor: pointer;
+        }
+
+
+        .view-image:hover {
+
+            opacity: 0.94;
+        }
+
+
+        .view-info {
+
+            padding: 16px;
+        }
+
+
+        .view-name {
+
+            margin-bottom: 5px;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            color: #16253d;
+
+            text-transform: capitalize;
+        }
+
+
+        .view-filename {
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .view-confidence {
+
+            margin-top: 7px;
+
+            color: #1769aa;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           RESULT SUMMARY
+        ========================================= */
+
+        .assessment-id {
+
+            margin-top: 10px;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .metrics {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .views {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            #fileList {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding:
+                    22px 20px;
+            }
+
+
+            header h1 {
+
+                font-size: 24px;
+            }
+
+
+            main {
+
+                width:
+                    calc(100% - 24px);
+
+                margin-top: 20px;
+            }
+
+
+            .card {
+
+                padding: 22px;
+            }
+
+
+            #fileList {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .metrics {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .selection-row {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                gap: 5px;
+            }
+
+
+            .actions {
+
+                flex-direction:
+                    column;
+            }
+
+
+            button {
+
+                width: 100%;
+            }
+
+
+            .view-image {
+
+                height: 230px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header>
+
+    <div class="header-inner">
+
+        <h1>
+            Vision Wings
+        </h1>
+
+        <p>
+            Aircraft Engine Tie-Down Detector
+        </p>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+    <!-- =====================================
+         UPLOAD
+    ====================================== -->
+
+    <section class="card">
+
+        <h2 class="card-title">
+            Engine Inspection Images
+        </h2>
+
+
+        <p class="card-description">
+
+            Upload at least 6 inspection images
+            covering the engine, trailer,
+            tie-down connections and
+            pneumatic suspension.
+
+        </p>
+
+
+        <label
+            class="upload-zone"
+            for="images"
+        >
+
+            <div class="upload-content">
+
+                <div class="upload-icon">
+                    📷
+                </div>
+
+
+                <h3 class="upload-title">
+                    Select Inspection Images
+                </h3>
+
+
+                <p class="upload-subtitle">
+
+                    Choose 6 or more JPG,
+                    PNG or WebP images
+
+                </p>
+
+            </div>
+
+        </label>
+
+
+        <input
+            id="images"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+        />
+
+
+        <div class="selection-row">
+
+            <span
+                id="selectionStatus"
+                class="selection-status"
+            >
+                No images selected.
+            </span>
+
+
+            <span
+                id="fileCount"
+                class="file-count"
+            >
+                0 / 6 minimum
+            </span>
+
+        </div>
+
+
+        <div id="fileList"></div>
+
+
+        <div class="actions">
+
+            <button
+                id="analyzeBtn"
+                class="primary"
+                disabled
+            >
+                ANALYZE TIE-DOWN
+            </button>
+
+
+            <button
+                id="clearBtn"
+                class="secondary"
+            >
+                CLEAR
+            </button>
+
+        </div>
+
+
+        <div
+            id="loading"
+            class="loading"
+        >
+
+            🔄 Running computer vision analysis...
+
+        </div>
+
+
+        <div
+            id="error"
+            class="error"
+        ></div>
+
+    </section>
+
+
+    <!-- =====================================
+         RESULT
+    ====================================== -->
+
+    <section
+        id="result"
+        class="card result"
+    >
+
+
+        <div
+            id="decisionBox"
+            class="decision"
+        >
+
+            <h2 id="decision">
+                GOOD TO GO
+            </h2>
+
+
+            <p id="decisionDescription"></p>
+
+
+            <div
+                id="assessmentId"
+                class="assessment-id"
+            ></div>
+
+        </div>
+
+
+        <!-- =================================
+             METRICS
+        ================================== -->
+
+        <h3 class="section-heading">
+            Compliance Evidence
+        </h3>
+
+
+        <div class="metrics">
+
+
+            <div class="metric">
+
+                <span class="metric-label">
+                    Images analyzed
+                </span>
+
+
+                <strong
+                    id="imagesAnalyzed"
+                    class="metric-value"
+                >
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="metric">
+
+                <span class="metric-label">
+                    Strap observations
+                </span>
+
+
+                <strong
+                    id="strapCount"
+                    class="metric-value"
+                >
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="metric">
+
+                <span class="metric-label">
+                    Correctly connected
+                </span>
+
+
+                <strong
+                    id="goodStraps"
+                    class="metric-value"
+                >
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="metric">
+
+                <span class="metric-label">
+                    Suspension
+                </span>
+
+
+                <strong
+                    id="suspension"
+                    class="metric-value"
+                >
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             CHECKS
+        ================================== -->
+
+        <h3 class="section-heading">
+            Validation Checks
+        </h3>
+
+
+        <div class="checks">
+
+
+            <div
+                id="viewCheck"
+                class="check"
+            >
+                Required views
+            </div>
+
+
+            <div
+                id="imageCheck"
+                class="check"
+            >
+                Image quality
+            </div>
+
+
+            <div
+                id="strapCheck"
+                class="check"
+            >
+                Tie-down connections
+            </div>
+
+
+            <div
+                id="suspensionCheck"
+                class="check"
+            >
+                Pneumatic suspension
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             IMAGES
+        ================================== -->
+
+        <h3 class="section-heading">
+            AI Inspection Results
+        </h3>
+
+
+        <div
+            id="views"
+            class="views"
+        ></div>
+
+
+        <div class="actions">
+
+            <button
+                id="newAssessment"
+                class="primary"
+            >
+                NEW ASSESSMENT
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+
+const imageInput =
+    document.getElementById("images");
+
+
+const fileList =
+    document.getElementById("fileList");
+
+
+const selectionStatus =
+    document.getElementById(
+        "selectionStatus"
+    );
+
+
+const fileCount =
+    document.getElementById(
+        "fileCount"
+    );
+
+
+const analyzeBtn =
+    document.getElementById(
+        "analyzeBtn"
+    );
+
+
+const clearBtn =
+    document.getElementById(
+        "clearBtn"
+    );
+
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+
+const errorBox =
+    document.getElementById(
+        "error"
+    );
+
+
+const resultBox =
+    document.getElementById(
+        "result"
+    );
+
+
+const uploadZone =
+    document.querySelector(
+        ".upload-zone"
+    );
+
+
+let selectedFiles = [];
+
+
+/* =========================================
+   FILE SELECTION
+========================================= */
+
+
+imageInput.addEventListener(
+    "change",
+    () => {
+
+        selectedFiles =
+            Array.from(
+                imageInput.files
+            );
+
+
+        renderFiles();
+    }
+);
+
+
+/* =========================================
+   DRAG AND DROP
+========================================= */
+
+
+uploadZone.addEventListener(
+    "dragover",
+    event => {
+
+        event.preventDefault();
+
+        uploadZone.classList.add(
+            "dragover"
+        );
+    }
+);
+
+
+uploadZone.addEventListener(
+    "dragleave",
+    () => {
+
+        uploadZone.classList.remove(
+            "dragover"
+        );
+    }
+);
+
+
+uploadZone.addEventListener(
+    "drop",
+    event => {
+
+        event.preventDefault();
+
+        uploadZone.classList.remove(
+            "dragover"
+        );
+
+
+        selectedFiles =
+            Array.from(
+                event.dataTransfer.files
+            ).filter(
+                file =>
+                    file.type.startsWith(
+                        "image/"
+                    )
+            );
+
+
+        renderFiles();
+    }
+);
+
+
+/* =========================================
+   RENDER FILE LIST
+========================================= */
+
+
+function renderFiles() {
+
+    fileList.innerHTML = "";
+
+
+    selectedFiles.forEach(
+        (file, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "file-item";
+
+
+            item.title =
+                file.name;
+
+
+            item.textContent =
+                `${index + 1}. ${file.name}`;
+
+
+            fileList.appendChild(
+                item
+            );
+        }
+    );
+
+
+    fileCount.textContent =
+        `${selectedFiles.length} / 6 minimum`;
+
+
+    if (
+        selectedFiles.length >= 6
+    ) {
+
+        selectionStatus.textContent =
+            "✓ Ready for analysis";
+
+
+        selectionStatus.style.color =
+            "#176b43";
+
+
+        analyzeBtn.disabled =
+            false;
+
+    } else {
+
+        selectionStatus.textContent =
+            selectedFiles.length === 0
+                ? "No images selected."
+                : `${selectedFiles.length} image(s) selected — minimum 6 required.`;
+
+
+        selectionStatus.style.color =
+            "";
+
+
+        analyzeBtn.disabled =
+            true;
+    }
+}
+
+
+/* =========================================
+   CLEAR
+========================================= */
+
+
+function clearAll() {
+
+    selectedFiles = [];
+
+
+    imageInput.value = "";
+
+
+    fileList.innerHTML = "";
+
+
+    selectionStatus.textContent =
+        "No images selected.";
+
+
+    selectionStatus.style.color =
+        "";
+
+
+    fileCount.textContent =
+        "0 / 6 minimum";
+
+
+    analyzeBtn.disabled =
+        true;
+
+
+    resultBox.style.display =
+        "none";
+
+
+    errorBox.textContent =
+        "";
+}
+
+
+clearBtn.addEventListener(
+    "click",
+    clearAll
+);
+
+
+document
+    .getElementById(
+        "newAssessment"
+    )
+    .addEventListener(
+        "click",
+        clearAll
+    );
+
+
+/* =========================================
+   ANALYZE
+========================================= */
+
+
+analyzeBtn.addEventListener(
+    "click",
+    async () => {
+
+        errorBox.textContent =
+            "";
+
+
+        loading.style.display =
+            "block";
+
+
+        analyzeBtn.disabled =
+            true;
+
+
+        const formData =
+            new FormData();
+
+
+        selectedFiles.forEach(
+            file => {
+
+                formData.append(
+                    "images",
+                    file
+                );
+            }
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/assess",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.detail ||
+                    "Assessment failed."
+                );
+            }
+
+
+            displayResult(data);
+
+        }
+
+
+        catch (error) {
+
+            errorBox.textContent =
+                "Error: " +
+                error.message;
+        }
+
+
+        finally {
+
+            loading.style.display =
+                "none";
+
+
+            analyzeBtn.disabled =
+                selectedFiles.length < 6;
+        }
+    }
+);
+
+
+/* =========================================
+   DISPLAY RESULT
+========================================= */
+
+
+function displayResult(data) {
+
+    resultBox.style.display =
+        "block";
+
+
+    const decision =
+        data.decision;
+
+
+    const decisionBox =
+        document.getElementById(
+            "decisionBox"
+        );
+
+
+    const decisionTitle =
+        document.getElementById(
+            "decision"
+        );
+
+
+    const description =
+        document.getElementById(
+            "decisionDescription"
+        );
+
+
+    decisionBox.className =
+        "decision";
+
+
+    if (
+        decision ===
+        "GOOD_TO_GO"
+    ) {
+
+        decisionBox.classList.add(
+            "good"
+        );
+
+
+        decisionTitle.textContent =
+            "✓ GOOD TO GO";
+
+
+        description.textContent =
+            "Tie-down and suspension checks passed.";
+    }
+
+
+    else if (
+        decision ===
+        "TIE_DOWN_INCORRECT"
+    ) {
+
+        decisionBox.classList.add(
+            "bad"
+        );
+
+
+        decisionTitle.textContent =
+            "✕ TIE-DOWN INCORRECT";
+
+
+        description.textContent =
+            "A tie-down or suspension compliance issue was detected.";
+    }
+
+
+    else {
+
+        decisionBox.classList.add(
+            "more"
+        );
+
+
+        decisionTitle.textContent =
+            "⚠ MORE IMAGES REQUIRED";
+
+
+        description.textContent =
+            "Additional or clearer inspection images are required.";
+    }
+
+
+    document.getElementById(
+        "assessmentId"
+    ).textContent =
+        "Assessment: " +
+        data.assessment_id;
+
+
+    document.getElementById(
+        "imagesAnalyzed"
+    ).textContent =
+        data.images_analyzed;
+
+
+    document.getElementById(
+        "strapCount"
+    ).textContent =
+        data.strap_evidence.detected;
+
+
+    document.getElementById(
+        "goodStraps"
+    ).textContent =
+        data.strap_evidence.correctly_connected;
+
+
+    document.getElementById(
+        "suspension"
+    ).textContent =
+        data.suspension.status
+            .toUpperCase();
+
+
+    /* =====================================
+       VALIDATION CHECKS
+    ===================================== */
+
+
+    updateCheck(
+
+        "viewCheck",
+
+        data.missing_required_views
+            .length === 0,
+
+        data.missing_required_views
+            .length === 0
+
+            ? "✓ Required views detected"
+
+            : "✕ Missing views: " +
+              data.missing_required_views
+                .join(", ")
+    );
+
+
+    updateCheck(
+
+        "imageCheck",
+
+        data.poor_quality_images
+            .length === 0,
+
+        data.poor_quality_images
+            .length === 0
+
+            ? "✓ Image quality acceptable"
+
+            : "✕ Poor images: " +
+              data.poor_quality_images
+                .join(", ")
+    );
+
+
+    updateCheck(
+
+        "strapCheck",
+
+        data.strap_evidence
+            .problematic === 0,
+
+        data.strap_evidence
+            .problematic === 0
+
+            ? "✓ No problematic tie-down connections detected"
+
+            : "✕ Problematic tie-down connections detected"
+    );
+
+
+    updateCheck(
+
+        "suspensionCheck",
+
+        data.suspension.status ===
+            "good",
+
+        data.suspension.status ===
+            "good"
+
+            ? "✓ Pneumatic suspension OK"
+
+            : "✕ Pneumatic suspension issue detected"
+    );
+
+
+    /* =====================================
+       DISPLAY ACTUAL IMAGES
+    ===================================== */
+
+
+    const viewsContainer =
+        document.getElementById(
+            "views"
+        );
+
+
+    viewsContainer.innerHTML =
+        "";
+
+
+    data.views.forEach(
+        (view, index) => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "view";
+
+
+            const confidence =
+                (
+                    view.confidence * 100
+                ).toFixed(1);
+
+
+            /*
+             * The API returns the views in
+             * the same order as the uploaded
+             * files.
+             */
+
+
+            const originalFile =
+                selectedFiles[index];
+
+
+            let imageHtml =
+                "";
+
+
+            if (originalFile) {
+
+                const imageUrl =
+                    URL.createObjectURL(
+                        originalFile
+                    );
+
+
+                imageHtml = `
+
+                    <img
+
+                        class="view-image"
+
+                        src="${imageUrl}"
+
+                        alt="${view.view}"
+
+                        title="Click to open full image"
+
+                        onclick="
+                            window.open(
+                                '${imageUrl}',
+                                '_blank'
+                            )
+                        "
+
+                    >
+
+                `;
+            }
+
+
+            const viewName =
+                view.view
+                    .replaceAll(
+                        "_",
+                        " "
+                    )
+                    .replace(
+                        /\b\w/g,
+                        character =>
+                            character
+                                .toUpperCase()
+                    );
+
+
+            div.innerHTML = `
+
+                ${imageHtml}
+
+                <div class="view-info">
+
+                    <div class="view-name">
+                        ${viewName}
+                    </div>
+
+                    <div class="view-filename">
+                        ${view.image}
+                    </div>
+
+                    <div class="view-confidence">
+                        AI confidence:
+                        ${confidence}%
+                    </div>
+
+                </div>
+
+            `;
+
+
+            viewsContainer.appendChild(
+                div
+            );
+        }
+    );
+
+
+    resultBox.scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+    });
+}
+
+
+/* =========================================
+   CHECK HELPER
+========================================= */
+
+
+function updateCheck(
+    id,
+    ok,
+    text
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    element.className =
+        "check " +
+        (
+            ok
+                ? "ok"
+                : "bad"
+        );
+
+
+    element.textContent =
+        text;
+}
+
+
+</script>
+
+</body>
+
+</html>

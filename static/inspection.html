@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Wings - Inspection</title>
+<style>
+:root{--bg:#f4f7fb;--surface:#fff;--surface-soft:#f8fafc;--border:#e4e7ec;--text:#101828;--muted:#667085;--blue:#1677ff;--blue-dark:#0f5dcc;--green:#12b76a;--red:#f04438;--orange:#f79009;--shadow:0 4px 18px rgba(16,24,40,.06)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input{font-family:inherit}
+.topbar{height:72px;background:#101828;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#1677ff;font-size:20px;font-weight:700}.brand-name{font-size:22px;font-weight:700;letter-spacing:-.3px}.brand-name span{color:#62a8ff}
+.header-nav{display:flex;align-items:center;gap:4px;padding:4px;border-radius:9px;background:rgba(255,255,255,.06)}
+.nav-item{padding:9px 14px;border-radius:7px;font-size:14px;color:#b8c4d6;cursor:pointer;transition:.15s}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-item.active{color:#fff;background:#1677ff;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.page{max-width:1500px;margin:0 auto;padding:30px 32px 50px}
+.page-heading{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}.page-heading h1{margin:0;font-size:30px;line-height:1.2;letter-spacing:-.5px}.page-heading p{margin:7px 0 0;color:var(--muted);font-size:14px}
+.status-badge{display:flex;align-items:center;gap:8px;padding:9px 13px;background:#ecfdf3;color:#027a48;border:1px solid #abefc6;border-radius:20px;font-size:13px;font-weight:600}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.upload-card,.image-card,.control-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow)}
+.upload-card{padding:18px;margin-bottom:20px}
+.upload-zone{min-height:120px;border:2px dashed #c5ccd6;border-radius:10px;background:var(--surface-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,background .2s}
+.upload-zone:hover,.upload-zone.dragging{border-color:var(--blue);background:#f5f9ff}.upload-zone input{display:none}.upload-content{text-align:center}.upload-icon{font-size:28px;margin-bottom:7px}.upload-title{font-size:15px;font-weight:700}.upload-subtitle{margin-top:5px;font-size:13px;color:var(--muted)}
+.thumbnail-strip{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:3px}.thumb-wrap{position:relative;flex:0 0 108px}.thumbnail{width:108px;height:76px;object-fit:cover;border-radius:7px;border:2px solid transparent;cursor:pointer;background:#101828}.thumbnail:hover{border-color:#98a2b3}.thumbnail.active{border-color:var(--blue)}.thumb-route{font-size:10px;font-weight:700;text-align:center;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.route-strap{color:#027a48}.route-suspension{color:#175cd3}.route-other{color:#667085}.route-unknown{color:#b54708}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:20px;align-items:start}
+.image-card{overflow:hidden}.card-header{min-height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--border)}.card-title{font-size:15px;font-weight:700}.image-info{font-size:12px;color:var(--muted)}
+.canvas-area{height:620px;background:#111827;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}.canvas-wrapper{position:relative;display:inline-block;max-width:100%;max-height:100%;line-height:0}#mainImage{display:block;max-width:100%;max-height:580px;width:auto;height:auto;object-fit:contain;user-select:none}.annotation-overlay{position:absolute;left:0;top:0;pointer-events:none}.empty-state{text-align:center;color:#98a2b3}.empty-icon{font-size:45px;margin-bottom:10px}.empty-state strong{display:block;color:#d0d5dd;font-size:15px}.empty-state span{display:block;margin-top:5px;font-size:13px}
+.control-card{overflow:hidden}.panel-section{padding:18px;border-bottom:1px solid var(--border)}.panel-section:last-child{border-bottom:0}.section-heading{font-size:14px;font-weight:700;margin-bottom:13px}
+.decision{border-radius:10px;padding:16px;text-align:center;font-size:21px;font-weight:800;margin-bottom:0}.decision.good{background:#ecfdf3;color:#027a48;border:1px solid #abefc6}.decision.bad{background:#fef3f2;color:#b42318;border:1px solid #fecdca}.decision.more{background:#fffaeb;color:#b54708;border:1px solid #fedf89}.decision.unknown{background:#f2f4f7;color:#344054;border:1px solid #d0d5dd}
+.evidence-item{border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:9px;font-size:12px;line-height:1.45}.evidence-good{background:#f0fdf4;border-color:#abefc6}.evidence-warning{background:#fffbeb;border-color:#fedf89}.evidence-bad{background:#fef2f2;border-color:#fecdca}
+.stat{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0}.stat:last-child{border-bottom:0}.small-muted{color:var(--muted);font-size:11px}.action{font-size:12px;line-height:1.5}.view-badge{position:absolute;left:12px;top:12px;z-index:5;padding:8px 12px;border-radius:8px;background:rgba(3,7,18,.88);color:#fff;font-size:13px;font-weight:800;letter-spacing:.2px;border:1px solid rgba(255,255,255,.18);pointer-events:none}.view-badge.strap_view{border-color:#00ff66;color:#00ff66}.view-badge.suspension{border-color:#38bdf8;color:#38bdf8}.view-badge.other{border-color:#cbd5e1;color:#fff}.view-badge.unknown{border-color:#f79009;color:#fbbf24}.legend{margin-top:12px;color:#d1d5db;font-size:12px}.legend span{margin-right:18px}.mask-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{height:40px;border-radius:7px;border:0;cursor:pointer;font-size:13px;font-weight:700}.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dark)}.btn-secondary{background:#f2f4f7;color:#344054;border:1px solid #d0d5dd}.btn-secondary:hover{background:#e9edf2}.btn:disabled{opacity:.55;cursor:not-allowed}
+.status{margin-top:12px;padding:10px 11px;border-radius:7px;background:#f2f4f7;color:#475467;font-size:12px;line-height:1.4}
+@media(max-width:1050px){.workspace{grid-template-columns:1fr}.canvas-area{height:540px}}
+@media(max-width:700px){.topbar{padding:0 16px}.header-nav{display:none}.page{padding:20px 14px 40px}.page-heading{flex-direction:column;gap:12px}.canvas-area{height:420px;padding:10px}.action-buttons{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="brand"><div class="brand-mark">V</div><div class="brand-name">Vision <span>Wings</span></div></div>
+<nav class="header-nav">
+<div class="nav-item active" onclick="window.location.href='/inspection.html'">Inspection</div>
+<div class="nav-item" onclick="window.location.href='/training.html'">Training & Annotation</div>
+</nav>
+</header>
+
+<main class="page">
+<div class="page-heading">
+<div><h1>Engine Tie-down Inspection</h1><p>Computer vision assisted aircraft engine transport compliance</p></div>
+<div class="status-badge"><span class="status-dot"></span>Inspection Ready</div>
+</div>
+
+<section class="upload-card">
+<label class="upload-zone" id="uploadZone">
+<input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+<div class="upload-content"><div class="upload-icon">📷</div><div class="upload-title">Upload inspection images</div><div class="upload-subtitle">Drag & drop images here or click to browse · Minimum 6 images</div></div>
+</label>
+<div class="thumbnail-strip" id="thumbnailStrip"></div>
+</section>
+
+<section class="workspace">
+<div class="image-card">
+<div class="card-header"><div class="card-title">Inspection Image</div><div class="image-info" id="imageInfo">No image selected</div></div>
+<div class="canvas-area">
+<div id="viewBadge" class="view-badge" style="display:none"></div>
+<div class="empty-state" id="emptyState"><div class="empty-icon">🖼️</div><strong>Upload inspection images</strong><span>The system will route each view and analyze tie-down and suspension evidence.</span></div>
+<div class="canvas-wrapper" id="canvasWrapper" style="display:none"><img id="mainImage" draggable="false"><canvas id="annotationCanvas" style="position:absolute;left:0;top:0;width:100%;height:100%;"></canvas></div>
+</div>
+</div>
+
+<aside class="control-card">
+<div class="panel-section">
+<div id="decision" class="decision unknown">WAITING</div>
+</div>
+
+<div class="panel-section">
+<div class="section-heading">Inspection Evidence</div>
+<div id="summaryEvidence"></div>
+<div id="suspensionEvidence"></div>
+<div id="strapEvidence"></div>
+<div id="detectedStrapsEvidence"></div>
+<div id="segmentationEvidence"></div>
+<div id="actionEvidence"></div>
+</div>
+
+<div class="panel-section">
+<div class="action-buttons">
+<button class="btn btn-secondary" id="resetBtn">Reset</button>
+<button class="btn btn-primary" id="analyzeBtn" disabled>Analyze Images</button>
+</div>
+<div class="status" id="status">Select at least 6 images to begin.</div>
+</div>
+</aside>
+</section>
+</main>
+
+<script>
+const viewBadge=document.getElementById("viewBadge"),detectedStrapsEvidence=document.getElementById("detectedStrapsEvidence"),fileInput=document.getElementById("fileInput"),uploadZone=document.getElementById("uploadZone"),thumbnailStrip=document.getElementById("thumbnailStrip"),mainImage=document.getElementById("mainImage"),canvas=document.getElementById("annotationCanvas"),ctx=canvas.getContext("2d"),canvasWrapper=document.getElementById("canvasWrapper"),emptyState=document.getElementById("emptyState"),imageInfo=document.getElementById("imageInfo"),decisionBox=document.getElementById("decision"),summaryEvidence=document.getElementById("summaryEvidence"),suspensionEvidence=document.getElementById("suspensionEvidence"),strapEvidence=document.getElementById("strapEvidence"),segmentationEvidence=document.getElementById("segmentationEvidence"),actionEvidence=document.getElementById("actionEvidence"),analyzeBtn=document.getElementById("analyzeBtn"),resetBtn=document.getElementById("resetBtn"),statusBox=document.getElementById("status");
+let selectedFiles=[],resultData=null,currentIndex=0;
+
+fileInput.addEventListener("change",()=>setFiles(Array.from(fileInput.files)));
+uploadZone.addEventListener("dragover",e=>{e.preventDefault();uploadZone.classList.add("dragging")});
+uploadZone.addEventListener("dragleave",()=>uploadZone.classList.remove("dragging"));
+uploadZone.addEventListener("drop",e=>{e.preventDefault();uploadZone.classList.remove("dragging");setFiles(Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith("image/")))});
+
+function setFiles(files){selectedFiles=files;resultData=null;currentIndex=0;analyzeBtn.disabled=files.length<6;renderThumbnails();resultsHidden();statusBox.textContent=files.length<6?`${files.length} image(s) selected. Minimum 6 required.`:`${files.length} images selected. Ready to analyze.`}
+function resultsHidden(){viewBadge.style.display="none";document.getElementById("decision").textContent="WAITING";document.getElementById("decision").className="decision unknown";summaryEvidence.innerHTML="";suspensionEvidence.innerHTML="";strapEvidence.innerHTML="";detectedStrapsEvidence.innerHTML="";segmentationEvidence.innerHTML="";actionEvidence.innerHTML=""}
+function renderThumbnails(){
+ thumbnailStrip.innerHTML="";
+ selectedFiles.forEach((file,index)=>{
+   const wrap=document.createElement("div");wrap.className="thumb-wrap";
+   const img=document.createElement("img");img.src=URL.createObjectURL(file);img.className="thumbnail"+(index===currentIndex?" active":"");img.title=file.name;
+   img.onclick=()=>{currentIndex=index;renderThumbnails();if(resultData)drawCurrentImage()};
+   wrap.appendChild(img);
+   if(resultData?.images?.[index]){const e=resultData.images[index],route=e.route||"unknown",c=e.route_confidence||0;const r=document.createElement("div");r.className="thumb-route "+routeClass(route);r.textContent=`${route.replaceAll("_"," ")} (${(c*100).toFixed(0)}%)`;wrap.appendChild(r)}
+   thumbnailStrip.appendChild(wrap);
+ });
+}
+function routeClass(r){return r==="strap_view"?"route-strap":r==="suspension"?"route-suspension":r==="other"?"route-other":"route-unknown"}
+
+analyzeBtn.addEventListener("click",async()=>{
+ if(selectedFiles.length<6)return;
+ analyzeBtn.disabled=true;statusBox.textContent="Analyzing images with computer vision...";
+ try{
+  const fd=new FormData();selectedFiles.forEach(f=>fd.append("images",f));
+  const response=await fetch("/assess",{method:"POST",body:fd});
+  if(!response.ok){let msg="Analysis failed.";try{msg=(await response.json()).detail||msg}catch(_){}throw new Error(msg)}
+  resultData=await response.json();renderDecision();renderEvidence();renderThumbnails();drawCurrentImage();statusBox.textContent="Analysis complete.";
+ }catch(error){console.error(error);statusBox.textContent="Analysis failed: "+error.message}
+ finally{analyzeBtn.disabled=selectedFiles.length<6}
+});
+
+function renderDecision(){
+ const d=resultData.decision||"UNKNOWN";decisionBox.textContent=d.replaceAll("_"," ");decisionBox.className="decision "+(d==="GOOD_TO_GO"?"good":d==="TIE_DOWN_INCORRECT"?"bad":d==="MORE_IMAGES_REQUIRED"?"more":"unknown");
+}
+function renderEvidence(){
+ const s=resultData.routing_summary||{},straps=resultData.straps||[],susp=resultData.suspension||"unknown",m=resultData.segmentation_summary||{};
+ const unknown=s.unknown_views||0,strapViews=s.strap_views||0,suspViews=s.suspension_views||0,other=s.other_views||0;
+ summaryEvidence.innerHTML=`<div class="evidence-item ${unknown?"evidence-warning":"evidence-good"}"><b>Image Coverage</b><div class="stat"><span>Total images</span><b>${selectedFiles.length}</b></div><div class="stat"><span>Strap views</span><b>${strapViews}</b></div><div class="stat"><span>Suspension views</span><b>${suspViews}</b></div><div class="stat"><span>Other views</span><b>${other}</b></div>${unknown?`<div class="stat"><span>Uncertain views</span><b>${unknown}</b></div>`:""}</div>`;
+ suspensionEvidence.innerHTML=`<div class="evidence-item ${susp==="good"?"evidence-good":susp==="bad"?"evidence-bad":"evidence-warning"}"><b>Pneumatic Suspension</b><br>Condition: <b>${susp.toUpperCase()}</b>${resultData.suspension_image?`<br><span class="small-muted">${resultData.suspension_image}</span>`:""}</div>`;
+ const good=straps.filter(x=>x.quality==="good").length,bad=straps.filter(x=>["loose","unconnected","missing_anchor"].includes(x.quality)).length,uncertain=straps.length-good-bad;
+ strapEvidence.innerHTML=`<div class="evidence-item ${bad?"evidence-bad":uncertain?"evidence-warning":"evidence-good"}"><b>Tie-down Straps</b><div class="stat"><span>Observations</span><b>${straps.length}</b></div><div class="stat"><span>Good</span><b>${good}</b></div><div class="stat"><span>Problematic</span><b>${bad}</b></div><div class="stat"><span>Uncertain</span><b>${uncertain}</b></div></div>`;
+
+ const detectedCount=straps.length;
+ const segmentedCount=m.total_masks||0;
+ detectedStrapsEvidence.innerHTML=`<div class="evidence-item ${detectedCount?"evidence-good":"evidence-warning"}"><b>Detected Straps</b><div class="stat"><span>Straps detected</span><b>${detectedCount}</b></div><div class="stat"><span>Visual masks</span><b>${segmentedCount}</b></div><div class="small-muted">${detectedCount?"Detected strap regions are highlighted on the inspection image.":"No strap regions detected with sufficient confidence."}</div></div>`;
+
+ const masks=m.total_masks||0,segImgs=m.images_with_segmentation||0;
+ segmentationEvidence.innerHTML=`<div class="evidence-item ${masks?"evidence-good":"evidence-warning"}"><b>AI Strap Segmentation</b><br>${masks} strap mask(s) detected${masks?` · visible across ${segImgs} image(s)`: ""}<br><span class="small-muted">Green overlays show visual segmentation evidence.</span></div>`;
+ let action=resultData.decision==="GOOD_TO_GO"?"Tie-down inspection passed based on the available computer-vision evidence.":resultData.decision==="TIE_DOWN_INCORRECT"?"Review the highlighted tie-down evidence and correct the identified issue.":"Capture additional clear inspection images where the evidence is uncertain or incomplete.";
+ actionEvidence.innerHTML=`<div class="action"><b>Recommended Action</b><br>${action}</div>`;
+}
+
+function drawCurrentImage(){
+ const file=selectedFiles[currentIndex];
+ if(!file)return;
+
+ const image=new Image();
+ image.onload=()=>{
+   // Show the image first. The canvas is then sized to the image's
+   // actual rendered dimensions, so YOLO polygon coordinates line up.
+   mainImage.src=image.src;
+   mainImage.onload=()=>{
+     canvasWrapper.style.display="inline-block";
+     emptyState.style.display="none";
+
+     const rect=mainImage.getBoundingClientRect();
+     const naturalW=mainImage.naturalWidth;
+     const naturalH=mainImage.naturalHeight;
+
+     // Canvas internal coordinates remain the original image coordinates.
+     canvas.width=naturalW;
+     canvas.height=naturalH;
+
+     // CSS dimensions match the displayed image exactly.
+     canvas.style.width=`${rect.width}px`;
+     canvas.style.height=`${rect.height}px`;
+     canvas.style.left="0px";
+     canvas.style.top="0px";
+
+     ctx.clearRect(0,0,canvas.width,canvas.height);
+
+     const e=resultData?.images?.[currentIndex];
+     if(!e){
+       viewBadge.style.display="none";
+       imageInfo.textContent=file.name;
+       return;
+     }
+
+     const route=e.route||"unknown";
+     const c=e.route_confidence||0;
+     const routeLabels={
+       strap_view:"STRAP VIEW",
+       suspension:"PNEUMATIC SUSPENSION VIEW",
+       other:"OTHER / FRONT-REAR VIEW",
+       unknown:"UNKNOWN VIEW"
+     };
+     viewBadge.textContent=`IDENTIFIED: ${routeLabels[route]||"UNKNOWN VIEW"} · ${(c*100).toFixed(0)}%`;
+     viewBadge.className=`view-badge ${route}`;
+     viewBadge.style.display="block";
+     imageInfo.textContent=
+       `${file.name} · ${route.replaceAll("_"," ")} · ${(c*100).toFixed(1)}%`;
+
+     drawSegmentations(e.segmentation||[]);
+     drawDetections(e.detections||[]);
+     drawSuspensionDetection(e.detections||[],route);
+   };
+ };
+ image.src=URL.createObjectURL(file);
+}
+
+function drawSegmentations(segs){
+ const naturalW=canvas.width;
+ const naturalH=canvas.height;
+ if(!naturalW||!naturalH)return;
+
+ // Because the canvas internal coordinate system is the original image,
+ // YOLO polygon coordinates can be drawn directly without guessing
+ // scale factors.
+ const sx=canvas.width/mainImage.naturalWidth;
+ const sy=canvas.height/mainImage.naturalHeight;
+
+ segs.forEach((seg,index)=>{
+   const p=seg.polygon||[];
+   if(p.length<3)return;
+
+   ctx.beginPath();
+   ctx.moveTo(p[0][0]*sx,p[0][1]*sy);
+   for(let i=1;i<p.length;i++){
+     ctx.lineTo(p[i][0]*sx,p[i][1]*sy);
+   }
+   ctx.closePath();
+
+   // Strong, highly visible strap highlight.
+   ctx.fillStyle="rgba(0,255,102,.22)";
+   ctx.fill();
+
+   ctx.strokeStyle="#00ff66";
+   ctx.lineWidth=Math.max(4,naturalW/500);
+   ctx.stroke();
+
+   // Label at the top-left of each detected strap.
+   if(seg.confidence!=null){
+     const label=`DETECTED STRAP ${(seg.confidence*100).toFixed(0)}%`;
+     const x=p[0][0]*sx;
+     const y=Math.max(28,p[0][1]*sy-10);
+
+     ctx.font=`bold ${Math.max(18,naturalW/70)}px Arial`;
+
+     const metrics=ctx.measureText(label);
+     ctx.fillStyle="rgba(0,0,0,.78)";
+     ctx.fillRect(
+       x-5,
+       y-22,
+       metrics.width+12,
+       30
+     );
+
+     ctx.fillStyle="#00ff66";
+     ctx.fillText(label,x,y);
+   }
+ });
+}
+
+function drawDetections(dets){
+ const sx=canvas.width/mainImage.naturalWidth;
+ const sy=canvas.height/mainImage.naturalHeight;
+
+ dets.filter(d=>(d.confidence||0)>=.60).forEach(d=>{
+   const b=d.bbox||[];
+   if(b.length!==4)return;
+
+   const[x1,y1,x2,y2]=b;
+
+   // Detector boxes are supplementary evidence.
+   ctx.strokeStyle="#ffcc00";
+   ctx.lineWidth=2;
+   ctx.strokeRect(
+     x1*sx,
+     y1*sy,
+     (x2-x1)*sx,
+     (y2-y1)*sy
+   );
+
+   if((d.class||"").toLowerCase()==="strap"){
+     const label=`DETECTED STRAP ${(d.confidence*100).toFixed(0)}%`;
+     ctx.font=`bold ${Math.max(16,canvas.width/80)}px Arial`;
+     ctx.fillStyle="#ffcc00";
+     ctx.fillText(label,x1*sx,Math.max(20,y1*sy-7));
+   }
+ });
+}
+
+function drawSuspensionDetection(dets,route){
+ // Only show suspension visualization on images routed to the
+ // pneumatic-suspension specialist.
+ if(route!=="suspension")return;
+
+ const sx=canvas.width/mainImage.naturalWidth;
+ const sy=canvas.height/mainImage.naturalHeight;
+
+ const suspensionDets=dets.filter(d=>{
+   const cls=(d.class||"").toLowerCase().replaceAll(" ","_");
+   return (cls==="pneumatic_suspension" || cls==="pneumatic-suspension") &&
+          (d.confidence||0)>=0.40;
+ });
+
+ suspensionDets.forEach(d=>{
+   const b=d.bbox||[];
+   if(b.length!==4)return;
+
+   const[x1,y1,x2,y2]=b;
+
+   // Blue box = pneumatic suspension detector evidence.
+   ctx.strokeStyle="#38bdf8";
+   ctx.lineWidth=Math.max(4,canvas.width/450);
+   ctx.strokeRect(
+     x1*sx,
+     y1*sy,
+     (x2-x1)*sx,
+     (y2-y1)*sy
+   );
+
+   const label=`PNEUMATIC SUSPENSION ${(d.confidence*100).toFixed(0)}%`;
+   ctx.font=`bold ${Math.max(18,canvas.width/72)}px Arial`;
+
+   const metrics=ctx.measureText(label);
+   const labelX=x1*sx;
+   const labelY=Math.max(30,y1*sy-10);
+
+   ctx.fillStyle="rgba(3,7,18,.82)";
+   ctx.fillRect(
+     labelX-6,
+     labelY-25,
+     metrics.width+14,
+     34
+   );
+
+   ctx.fillStyle="#38bdf8";
+   ctx.fillText(label,labelX,labelY);
+ });
+}
+
+resetBtn.addEventListener("click",()=>{viewBadge.style.display="none";selectedFiles=[];resultData=null;currentIndex=0;fileInput.value="";thumbnailStrip.innerHTML="";resultsHidden();canvasWrapper.style.display="none";emptyState.style.display="block";imageInfo.textContent="No image selected";analyzeBtn.disabled=true;statusBox.textContent="Select at least 6 images to begin."});
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+project:
+  name: aircraft_engine_tiedown
+  image_minimum: 6
+  target_image_width: 1600
+  target_image_height: 900
+
+coverage:
+  required_view_groups:
+    - left_side
+    - right_side
+    - full_trailer
+    - pneumatic_suspension
+
+detection:
+  metrics:
+    - precision
+    - recall
+    - ap50
+    - ap75
+    - latency_ms
+    - model_size_mb
+  priority_classes:
+    - strap
+    - chain
+    - connection_point
+    - pneumatic_suspension
+  note: "Thin strap and connection-point recall are safety-critical benchmark signals."
+
+segmentation:
+  metrics:
+    - mask_precision
+    - mask_recall
+    - mask_ap50
+    - mask_ap75
+    - boundary_quality
+
+classification:
+  labels:
+    - good
+    - bad
+  unknown_policy:
+    enabled: true
+    methods_to_compare:
+      - calibrated_softmax
+      - embedding_distance
+  metrics:
+    - accuracy
+    - macro_f1
+    - precision
+    - recall
+    - calibration_error
+
+decision:
+  outputs:
+    - GOOD_TO_GO
+    - TIE_DOWN_INCORRECT
+    - MORE_IMAGES_REQUIRED
+  false_positive_definition: "Incorrect tie-down or suspension identified as correct."
+  false_negative_definition: "Correct tie-down or suspension fails to be identified as correct."
+  target_false_positive_max: 0.01
+  target_false_negative_max: 0.10
+  target_false_negative_goal: 0.05
+  max_additional_image_requests: 0.20

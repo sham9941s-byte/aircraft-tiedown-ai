@@ -1,0 +1,5133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+    Vision Wings - Training & Annotation
+</title>
+
+
+<style>
+
+/* =========================================================
+   ROOT
+========================================================= */
+
+:root {
+
+    --bg: #f4f7fb;
+
+    --surface: #ffffff;
+
+    --surface-soft: #f8fafc;
+
+    --border: #e4e7ec;
+
+    --text: #101828;
+
+    --muted: #667085;
+
+    --blue: #1677ff;
+
+    --blue-dark: #0f5dcc;
+
+    --green: #12b76a;
+
+    --red: #f04438;
+
+    --orange: #f79009;
+
+    --shadow:
+        0 4px 18px
+        rgba(16, 24, 40, 0.06);
+
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    min-height: 100%;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+}
+
+
+button,
+select,
+input {
+
+    font-family: inherit;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar {
+
+    height: 72px;
+
+    background: #101828;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    box-shadow:
+        0 2px 10px
+        rgba(0, 0, 0, 0.12);
+
+}
+
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.brand-mark {
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #1677ff;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+.brand-name {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.3px;
+
+}
+
+
+.brand-name span {
+
+    color: #62a8ff;
+
+}
+
+
+.header-nav {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.nav-item {
+
+    padding: 9px 14px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    color: #b8c4d6;
+
+}
+
+
+.nav-item.active {
+
+    color: white;
+
+    background:
+        rgba(255,255,255,0.10);
+
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding:
+        30px 32px 50px;
+
+}
+
+
+.page-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 24px;
+
+}
+
+
+.page-heading h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.5px;
+
+}
+
+
+.page-heading p {
+
+    margin: 7px 0 0;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+}
+
+
+.dataset-badge {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 13px;
+
+    background: #ecfdf3;
+
+    color: #027a48;
+
+    border: 1px solid #abefc6;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.status-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+}
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+.upload-card {
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    box-shadow: var(--shadow);
+
+    margin-bottom: 20px;
+
+}
+
+
+.upload-zone {
+
+    min-height: 130px;
+
+    border:
+        2px dashed #c5ccd6;
+
+    border-radius: 10px;
+
+    background:
+        var(--surface-soft);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s,
+        background 0.2s;
+
+}
+
+
+.upload-zone:hover,
+.upload-zone.dragging {
+
+    border-color: var(--blue);
+
+    background: #f5f9ff;
+
+}
+
+
+.upload-zone input {
+
+    display: none;
+
+}
+
+
+.upload-content {
+
+    text-align: center;
+
+}
+
+
+.upload-icon {
+
+    font-size: 28px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.upload-title {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}
+
+
+.upload-subtitle {
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    color: var(--muted);
+
+}
+
+
+/* =========================================================
+   THUMBNAILS
+========================================================= */
+
+.thumbnail-strip {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 14px;
+
+    overflow-x: auto;
+
+    padding-bottom: 3px;
+
+}
+
+
+.thumbnail {
+
+    flex:
+        0 0 92px;
+
+    height: 66px;
+
+    object-fit: cover;
+
+    border-radius: 7px;
+
+    border:
+        2px solid transparent;
+
+    cursor: pointer;
+
+    background: #101828;
+
+}
+
+
+.thumbnail:hover {
+
+    border-color: #98a2b3;
+
+}
+
+
+.thumbnail.active {
+
+    border-color: var(--blue);
+
+}
+
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        350px;
+
+    gap: 20px;
+
+    align-items: start;
+
+}
+
+
+/* =========================================================
+   IMAGE PANEL
+========================================================= */
+
+.image-card {
+
+    background: var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+}
+
+
+.card-header {
+
+    min-height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.card-title {
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}
+
+
+.image-info {
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+}
+
+
+.canvas-area {
+
+    height: 620px;
+
+    background: #111827;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    overflow: hidden;
+
+}
+
+
+.canvas-wrapper {
+
+    position: relative;
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    line-height: 0;
+
+}
+
+
+#mainImage {
+
+    display: block;
+
+    max-width: 100%;
+
+    max-height: 580px;
+
+    object-fit: contain;
+
+    user-select: none;
+
+}
+
+
+#annotationCanvas {
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    cursor: crosshair;
+
+}
+
+
+.empty-state {
+
+    text-align: center;
+
+    color: #98a2b3;
+
+}
+
+
+.empty-icon {
+
+    font-size: 45px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.empty-state strong {
+
+    display: block;
+
+    color: #d0d5dd;
+
+    font-size: 15px;
+
+}
+
+
+.empty-state span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+.control-card {
+
+    background: var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+}
+
+
+.panel-section {
+
+    padding: 18px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.panel-section:last-child {
+
+    border-bottom: 0;
+
+}
+
+
+.section-heading {
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 13px;
+
+}
+
+
+.field {
+
+    margin-bottom: 14px;
+
+}
+
+
+.field:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+.field label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #344054;
+
+}
+
+
+select {
+
+    width: 100%;
+
+    height: 40px;
+
+    padding: 0 11px;
+
+    border:
+        1px solid #d0d5dd;
+
+    border-radius: 7px;
+
+    background: white;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    outline: none;
+
+}
+
+
+select:focus {
+
+    border-color: var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(22,119,255,0.10);
+
+}
+
+
+/* =========================================================
+   TOOLS
+========================================================= */
+
+.annotation-tools {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+}
+
+
+.tool {
+
+    height: 40px;
+
+    border:
+        1px solid #d0d5dd;
+
+    border-radius: 7px;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #344054;
+
+}
+
+
+.tool:hover {
+
+    border-color: #98a2b3;
+
+    background: #f9fafb;
+
+}
+
+
+.tool.active {
+
+    border-color: var(--blue);
+
+    background: #eff6ff;
+
+    color: var(--blue-dark);
+
+}
+
+.annotation-mode {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 10px;
+
+}
+
+.mode-button {
+
+    height: 36px;
+
+    border:
+        1px solid #d0d5dd;
+
+    border-radius: 7px;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #344054;
+
+}
+
+.mode-button:hover {
+
+    border-color: #98a2b3;
+
+    background: #f9fafb;
+
+}
+
+.mode-button.active {
+
+    border-color: var(--blue);
+
+    background: #eff6ff;
+
+    color: var(--blue-dark);
+
+}
+
+.tool-hint {
+
+    margin-top: 9px;
+
+    padding: 9px 10px;
+
+    border-radius: 7px;
+
+    background: #f8fafc;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+}
+
+
+/* =========================================================
+   OBJECT LIST
+========================================================= */
+
+.object-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    max-height: 210px;
+
+    overflow-y: auto;
+
+}
+
+
+.object-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    padding: 9px 10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    background: var(--surface-soft);
+
+    font-size: 12px;
+
+}
+
+
+.object-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.object-color {
+
+    width: 9px;
+
+    height: 9px;
+
+    border-radius: 3px;
+
+}
+
+
+.object-name {
+
+    font-weight: 600;
+
+}
+
+
+.object-remove {
+
+    border: 0;
+
+    background: transparent;
+
+    color: #98a2b3;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    padding: 0 3px;
+
+}
+
+
+.object-remove:hover {
+
+    color: var(--red);
+
+}
+
+
+.no-objects {
+
+    padding: 18px;
+
+    text-align: center;
+
+    color: #98a2b3;
+
+    border:
+        1px dashed #d0d5dd;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.action-buttons {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 9px;
+
+    margin-top: 14px;
+
+}
+
+
+.btn {
+
+    height: 40px;
+
+    border-radius: 7px;
+
+    border: 0;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.btn-primary {
+
+    background: var(--blue);
+
+    color: white;
+
+}
+
+
+.btn-primary:hover {
+
+    background: var(--blue-dark);
+
+}
+
+
+.btn-secondary {
+
+    background: #f2f4f7;
+
+    color: #344054;
+
+    border:
+        1px solid #d0d5dd;
+
+}
+
+
+.btn-secondary:hover {
+
+    background: #e9edf2;
+
+}
+
+
+.btn-training {
+
+    width: 100%;
+
+    margin-top: 9px;
+
+    background: #101828;
+
+    color: white;
+
+}
+
+
+.btn-training:hover {
+
+    background: #1d2939;
+
+}
+
+
+.btn-training:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navigation {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 9px;
+
+}
+
+
+.nav-button {
+
+    height: 38px;
+
+    border:
+        1px solid #d0d5dd;
+
+    border-radius: 7px;
+
+    background: white;
+
+    color: #344054;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.nav-button:hover {
+
+    background: #f9fafb;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+
+    margin-top: 12px;
+
+    padding: 10px 11px;
+
+    border-radius: 7px;
+
+    background: #f2f4f7;
+
+    color: #475467;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   DATASET SUMMARY
+========================================================= */
+
+.dataset-summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
+
+}
+
+
+.summary-card {
+
+    background: var(--surface);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+    box-shadow: var(--shadow);
+
+}
+
+
+.summary-value {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+}
+
+
+.summary-label {
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+}
+
+
+/* =========================================================
+   TRAINING MODAL
+========================================================= */
+
+.training-modal-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(16,24,40,0.70);
+
+    backdrop-filter:
+        blur(5px);
+
+}
+
+
+.training-modal {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    background: white;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,0.30);
+
+    animation:
+        modalAppear
+        0.2s ease-out;
+
+}
+
+
+@keyframes modalAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.97);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* modal header */
+
+.training-modal-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 22px;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.training-modal-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+
+    font-size: 24px;
+
+}
+
+
+.training-modal-header h2 {
+
+    margin: 0;
+
+    font-size: 19px;
+
+    color: var(--text);
+
+}
+
+
+.training-modal-header p {
+
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
+
+/* modal body */
+
+.training-modal-body {
+
+    padding: 22px;
+
+}
+
+
+/* running */
+
+.training-running {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 16px;
+
+    border-radius: 10px;
+
+    background: #eff6ff;
+
+}
+
+
+.training-running strong {
+
+    display: block;
+
+    color: #175cd3;
+
+    font-size: 14px;
+
+}
+
+
+.training-running p {
+
+    margin: 4px 0 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+/* spinner */
+
+.training-spinner {
+
+    width: 26px;
+
+    height: 26px;
+
+    flex-shrink: 0;
+
+    border:
+        3px solid #bfdbfe;
+
+    border-top-color:
+        #1677ff;
+
+    border-radius: 50%;
+
+    animation:
+        trainingSpin
+        0.8s linear infinite;
+
+}
+
+
+@keyframes trainingSpin {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* success */
+
+.training-success {
+
+    padding: 13px 14px;
+
+    border-radius: 9px;
+
+    background: #ecfdf3;
+
+    border:
+        1px solid #abefc6;
+
+    color: #027a48;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+/* metrics */
+
+.training-metrics {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 10px;
+
+    margin-top: 14px;
+
+}
+
+
+.metric-card {
+
+    padding: 14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+}
+
+
+.metric-card span {
+
+    display: block;
+
+    font-size: 11px;
+
+    color: var(--muted);
+
+}
+
+
+.metric-card strong {
+
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 21px;
+
+    color: var(--text);
+
+}
+
+
+/* model path */
+
+.trained-model {
+
+    margin-top: 12px;
+
+    padding: 10px;
+
+    border-radius: 7px;
+
+    background: #f2f4f7;
+
+    color: #475467;
+
+    font-size: 11px;
+
+    word-break: break-all;
+
+}
+
+
+/* error */
+
+.training-error {
+
+    padding: 13px;
+
+    border-radius: 9px;
+
+    background: #fef3f2;
+
+    border:
+        1px solid #fecdca;
+
+    color: #b42318;
+
+    font-size: 13px;
+
+}
+
+
+/* footer */
+
+.training-modal-footer {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    padding: 15px 22px;
+
+    border-top:
+        1px solid var(--border);
+
+}
+
+
+#trainingOkButton {
+
+    min-width: 90px;
+
+}
+
+
+#trainingOkButton:disabled {
+
+    opacity: 0.45;
+
+    cursor: not-allowed;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .workspace {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .control-card {
+
+        width: 100%;
+
+    }
+
+    .canvas-area {
+
+        height: 540px;
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .topbar {
+
+        padding: 0 16px;
+
+    }
+
+    .header-nav {
+
+        display: none;
+
+    }
+
+    .page {
+
+        padding:
+            20px 14px 40px;
+
+    }
+
+    .page-heading {
+
+        flex-direction: column;
+
+        gap: 12px;
+
+    }
+
+    .dataset-summary {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .canvas-area {
+
+        height: 420px;
+
+        padding: 10px;
+
+    }
+
+    .action-buttons {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .training-metrics {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-mark">
+            V
+        </div>
+
+        <div class="brand-name">
+            Vision <span>Wings</span>
+        </div>
+
+    </div>
+
+
+    <nav class="header-nav">
+
+        <div
+            class="nav-item"
+            onclick="window.location.href='/inspection.html'"
+            style="cursor:pointer;"
+        >
+            Inspection
+        </div>
+
+        <div class="nav-item active">
+            Training & Annotation
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN PAGE
+===================================================== -->
+
+<main class="page">
+
+
+    <!-- PAGE HEADING -->
+
+    <div class="page-heading">
+
+        <div>
+
+            <h1>
+                Training & Annotation
+            </h1>
+
+            <p>
+                Operator-assisted computer vision model improvement
+            </p>
+
+        </div>
+
+
+        <div class="dataset-badge">
+
+            <span class="status-dot"></span>
+
+            Dataset Ready
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         UPLOAD
+    ================================================== -->
+
+    <section class="upload-card">
+
+        <label
+            class="upload-zone"
+            id="uploadZone"
+        >
+
+            <input
+                id="fileInput"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+            >
+
+
+            <div class="upload-content">
+
+                <div class="upload-icon">
+                    📷
+                </div>
+
+                <div class="upload-title">
+                    Upload inspection images
+                </div>
+
+                <div class="upload-subtitle">
+                    Drag & drop images here or click to browse
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <div
+            class="thumbnail-strip"
+            id="thumbnailStrip"
+        ></div>
+
+    </section>
+
+
+    <!-- =================================================
+         WORKSPACE
+    ================================================== -->
+
+    <section class="workspace">
+
+
+        <!-- IMAGE -->
+
+        <div class="image-card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Visual Annotation
+                </div>
+
+                <div
+                    class="image-info"
+                    id="imageInfo"
+                >
+                    No image selected
+                </div>
+
+            </div>
+
+
+            <div class="canvas-area">
+
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
+
+                    <div class="empty-icon">
+                        🖼️
+                    </div>
+
+                    <strong>
+                        Upload an inspection image
+                    </strong>
+
+                    <span>
+                        Draw boxes or precise polygons directly on the image to annotate objects
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="canvas-wrapper"
+                    id="canvasWrapper"
+                    style="display:none;"
+                >
+
+                    <img
+                        id="mainImage"
+                        draggable="false"
+                    >
+
+                    <canvas
+                        id="annotationCanvas"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTROL PANEL -->
+
+        <aside class="control-card">
+
+
+            <!-- VIEW -->
+
+            <div class="panel-section">
+
+                <div class="section-heading">
+                    Image Information
+                </div>
+
+
+                <div class="field">
+
+                    <label for="view">
+                        View / Side
+                    </label>
+
+
+                    <select id="view">
+
+                        <option value="">
+                            Select view
+                        </option>
+
+                        <option value="left">
+                            Left Side
+                        </option>
+
+                        <option value="right">
+                            Right Side
+                        </option>
+
+                        <option value="front">
+                            Front
+                        </option>
+
+                        <option value="rear">
+                            Rear
+                        </option>
+
+                        <option value="whole_truck">
+                            Full Trailer
+                        </option>
+
+                        <option value="suspension">
+                            Pneumatic Suspension
+                        </option>
+
+                        <option value="close_up">
+                            Close-up
+                        </option>
+
+                        <option value="unknown">
+                            Unknown
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOOLS -->
+
+            <div class="panel-section">
+
+                <div class="section-heading">
+                    Annotation Tools
+                </div>
+
+
+                <div class="annotation-tools">
+
+                    <button
+                        class="tool active"
+                        data-class="0"
+                        onclick="selectTool(0)"
+                    >
+                        Engine
+                    </button>
+
+
+                    <button
+                        class="tool"
+                        data-class="1"
+                        onclick="selectTool(1)"
+                    >
+                        Trailer
+                    </button>
+
+
+                    <button
+                        class="tool"
+                        data-class="2"
+                        onclick="selectTool(2)"
+                    >
+                        Strap
+                    </button>
+
+
+                    <button
+                        class="tool"
+                        data-class="3"
+                        onclick="selectTool(3)"
+                    >
+                        Suspension
+                    </button>
+
+                </div>
+
+                <div class="annotation-mode">
+
+                    <button
+                        id="boxModeButton"
+                        class="mode-button active"
+                        onclick="setAnnotationMode('box')"
+                    >
+                        ▣ Box
+                    </button>
+
+                    <button
+                        id="polygonModeButton"
+                        class="mode-button"
+                        onclick="setAnnotationMode('polygon')"
+                    >
+                        ◇ Polygon
+                    </button>
+
+                </div>
+
+                <div class="tool-hint" id="toolHint">
+                    Box mode: click and drag around the object.
+                    For straps, use Polygon mode for precise segmentation.
+                </div>
+
+            </div>
+
+
+            <!-- OBJECTS -->
+
+            <div class="panel-section">
+
+                <div class="section-heading">
+                    Detected / Annotated Objects
+                </div>
+
+
+                <div
+                    class="object-list"
+                    id="objectList"
+                >
+
+                    <div class="no-objects">
+                        Draw a box on the image
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="panel-section">
+
+                <div class="action-buttons">
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="clearBoxes()"
+                    >
+                        Clear Boxes
+                    </button>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="saveAnnotation()"
+                    >
+                        Save Annotation
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="btn btn-training"
+                    id="trainingButton"
+                    onclick="startTraining()"
+                >
+                    🚀 Start Model Training
+                </button>
+
+
+                <div
+                    class="status"
+                    id="status"
+                >
+                    Upload an image to begin.
+                </div>
+
+            </div>
+
+
+            <!-- NAVIGATION -->
+
+            <div class="panel-section">
+
+                <div class="section-heading">
+                    Image Navigation
+                </div>
+
+
+                <div class="navigation">
+
+                    <button
+                        class="nav-button"
+                        onclick="previousImage()"
+                    >
+                        ← Previous
+                    </button>
+
+
+                    <button
+                        class="nav-button"
+                        onclick="nextImage()"
+                    >
+                        Next →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+
+    <!-- =================================================
+         DATASET SUMMARY
+    ================================================== -->
+
+    <section class="dataset-summary">
+
+
+        <div class="summary-card">
+
+            <div
+                class="summary-value"
+                id="imageCount"
+            >
+                0
+            </div>
+
+            <div class="summary-label">
+                Training Images
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div
+                class="summary-value"
+                id="annotationCount"
+            >
+                0
+            </div>
+
+            <div class="summary-label">
+                Annotated Images
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div
+                class="summary-value"
+                id="completion"
+            >
+                0%
+            </div>
+
+            <div class="summary-label">
+                Annotation Completion
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     TRAINING MODAL
+===================================================== -->
+
+<div
+    id="trainingModal"
+    class="training-modal-overlay"
+>
+
+
+    <div class="training-modal">
+
+
+        <!-- HEADER -->
+
+        <div class="training-modal-header">
+
+
+            <div
+                id="trainingModalIcon"
+                class="training-modal-icon"
+            >
+                🚀
+            </div>
+
+
+            <div>
+
+                <h2 id="trainingModalTitle">
+                    Training in Progress
+                </h2>
+
+
+                <p id="trainingModalSubtitle">
+                    Vision Wings is training the inspection model.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BODY -->
+
+        <div class="training-modal-body">
+
+
+            <!-- RUNNING -->
+
+            <div
+                id="trainingRunning"
+                class="training-running"
+            >
+
+
+                <div class="training-spinner"></div>
+
+
+                <div>
+
+                    <strong>
+                        GPU training is running
+                    </strong>
+
+
+                    <p id="trainingProgressText">
+                        Preparing model training...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div
+                id="trainingResults"
+                style="display:none;"
+            >
+
+
+                <div class="training-success">
+
+                    ✓ Model training completed successfully.
+
+                </div>
+
+
+                <div class="training-metrics">
+
+
+                    <div class="metric-card">
+
+                        <span>
+                            mAP50
+                        </span>
+
+                        <strong id="resultMap50">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric-card">
+
+                        <span>
+                            mAP50-95
+                        </span>
+
+                        <strong id="resultMap95">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric-card">
+
+                        <span>
+                            Precision
+                        </span>
+
+                        <strong id="resultPrecision">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric-card">
+
+                        <span>
+                            Recall
+                        </span>
+
+                        <strong id="resultRecall">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="trainedModel"
+                    class="trained-model"
+                ></div>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            <div
+                id="trainingError"
+                class="training-error"
+                style="display:none;"
+            ></div>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="training-modal-footer">
+
+
+            <button
+                id="trainingOkButton"
+                class="btn btn-primary"
+                onclick="finishTrainingModal()"
+                disabled
+            >
+                OK
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const CLASS_NAMES = {
+
+    0: "Engine",
+
+    1: "Trailer",
+
+    2: "Strap",
+
+    3: "Pneumatic Suspension"
+
+};
+
+
+let images = [];
+
+let currentIndex = -1;
+
+let currentTool = 0;
+
+let annotationMode = "box";
+
+let objects = [];
+
+let drawing = false;
+
+let startX = 0;
+
+let startY = 0;
+
+let activePolygon = [];
+
+let trainingRunning = false;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const fileInput =
+    document.getElementById(
+        "fileInput"
+    );
+
+
+const uploadZone =
+    document.getElementById(
+        "uploadZone"
+    );
+
+
+const thumbnailStrip =
+    document.getElementById(
+        "thumbnailStrip"
+    );
+
+
+const mainImage =
+    document.getElementById(
+        "mainImage"
+    );
+
+
+const canvas =
+    document.getElementById(
+        "annotationCanvas"
+    );
+
+
+const ctx =
+    canvas.getContext(
+        "2d"
+    );
+
+
+const canvasWrapper =
+    document.getElementById(
+        "canvasWrapper"
+    );
+
+
+const emptyState =
+    document.getElementById(
+        "emptyState"
+    );
+
+
+const objectList =
+    document.getElementById(
+        "objectList"
+    );
+
+
+const trainingButton =
+    document.getElementById(
+        "trainingButton"
+    );
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+fileInput.addEventListener(
+    "change",
+    async function () {
+
+        const files =
+            Array.from(
+                fileInput.files
+            );
+
+
+        for (
+            const file of files
+        ) {
+
+            await uploadImage(
+                file
+            );
+
+        }
+
+
+        fileInput.value = "";
+
+    }
+);
+
+
+async function uploadImage(
+    file
+) {
+
+    try {
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "image",
+            file
+        );
+
+
+        setStatus(
+            "Uploading " +
+            file.name +
+            "..."
+        );
+
+
+        const response =
+            await fetch(
+                "/training/upload",
+                {
+
+                    method: "POST",
+
+                    body: formData
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const error =
+                await response.json();
+
+
+            throw new Error(
+                error.detail ||
+                "Upload failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        images.push({
+
+            id:
+                data.image_id,
+
+            filename:
+                file.name,
+
+            url:
+                URL.createObjectURL(
+                    file
+                ),
+
+            annotated:
+                false,
+
+            savedObjects:
+                []
+
+        });
+
+
+        renderThumbnails();
+
+
+        if (
+            currentIndex === -1
+        ) {
+
+            selectImage(
+                images.length - 1
+            );
+
+        }
+
+
+        refreshDataset();
+
+
+        setStatus(
+            "✓ " +
+            file.name +
+            " uploaded."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        setStatus(
+            "Upload failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAG AND DROP
+========================================================= */
+
+uploadZone.addEventListener(
+    "dragover",
+    function (event) {
+
+        event.preventDefault();
+
+        uploadZone.classList.add(
+            "dragging"
+        );
+
+    }
+);
+
+
+uploadZone.addEventListener(
+    "dragleave",
+    function () {
+
+        uploadZone.classList.remove(
+            "dragging"
+        );
+
+    }
+);
+
+
+uploadZone.addEventListener(
+    "drop",
+    function (event) {
+
+        event.preventDefault();
+
+
+        uploadZone.classList.remove(
+            "dragging"
+        );
+
+
+        const files =
+            Array.from(
+                event.dataTransfer.files
+            ).filter(
+                file =>
+                    file.type.startsWith(
+                        "image/"
+                    )
+            );
+
+
+        files.forEach(
+            file =>
+                uploadImage(file)
+        );
+
+    }
+);
+
+
+/* =========================================================
+   THUMBNAILS
+========================================================= */
+
+function renderThumbnails() {
+
+    thumbnailStrip.innerHTML = "";
+
+
+    images.forEach(
+        (image, index) => {
+
+            const img =
+                document.createElement(
+                    "img"
+                );
+
+
+            img.src =
+                image.url;
+
+
+            img.className =
+                "thumbnail" +
+                (
+                    index === currentIndex
+                    ? " active"
+                    : ""
+                );
+
+
+            img.title =
+                image.filename;
+
+
+            img.onclick =
+                () =>
+                    selectImage(
+                        index
+                    );
+
+
+            thumbnailStrip.appendChild(
+                img
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SELECT IMAGE
+========================================================= */
+
+function selectImage(
+    index
+) {
+
+    if (
+        index < 0 ||
+        index >= images.length
+    ) {
+
+        return;
+
+    }
+
+
+    currentIndex =
+        index;
+
+
+    const image =
+        images[index];
+
+
+    objects =
+        image.savedObjects ||
+        [];
+
+    activePolygon = [];
+
+    drawing = false;
+
+
+    document.getElementById(
+        "view"
+    ).value =
+        image.view ||
+        "";
+
+
+    mainImage.onload =
+        function () {
+
+            resizeCanvas();
+
+            drawBoxes();
+
+        };
+
+
+    mainImage.src =
+        image.url;
+
+
+    canvasWrapper.style.display =
+        "block";
+
+
+    emptyState.style.display =
+        "none";
+
+
+    document.getElementById(
+        "imageInfo"
+    ).textContent =
+        image.filename;
+
+
+    renderThumbnails();
+
+
+    renderObjectList();
+
+
+    setStatus(
+        "Annotating " +
+        image.filename
+    );
+
+}
+
+
+/* =========================================================
+   CANVAS RESIZE
+========================================================= */
+
+function resizeCanvas() {
+
+    if (
+        !mainImage.naturalWidth ||
+        !mainImage.naturalHeight
+    ) {
+
+        return;
+
+    }
+
+
+    const rect =
+        mainImage.getBoundingClientRect();
+
+
+    const width =
+        Math.round(
+            rect.width
+        );
+
+
+    const height =
+        Math.round(
+            rect.height
+        );
+
+
+    canvas.width =
+        width;
+
+
+    canvas.height =
+        height;
+
+
+    canvas.style.width =
+        width + "px";
+
+
+    canvas.style.height =
+        height + "px";
+
+
+    drawBoxes();
+
+}
+
+
+/* =========================================================
+   WINDOW RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function () {
+
+        resizeCanvas();
+
+    }
+);
+
+
+/* =========================================================
+   TOOL SELECTION
+========================================================= */
+
+function selectTool(
+    classId
+) {
+
+    currentTool =
+        classId;
+
+
+    document
+        .querySelectorAll(
+            ".tool"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    Number(
+                        button.dataset.class
+                    ) === classId
+                );
+
+            }
+        );
+
+
+    if (
+        classId === 2
+    ) {
+
+        setAnnotationMode("polygon");
+
+        setStatus(
+            "Strap selected. Polygon mode enabled for precise segmentation."
+        );
+
+    } else {
+
+        setStatus(
+            "Drawing tool: " +
+            CLASS_NAMES[classId]
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ANNOTATION MODE
+========================================================= */
+
+function setAnnotationMode(
+    mode
+) {
+
+    if (
+        activePolygon.length > 0
+    ) {
+
+        activePolygon = [];
+
+        drawBoxes();
+
+    }
+
+
+    annotationMode =
+        mode;
+
+
+    document
+        .getElementById(
+            "boxModeButton"
+        )
+        .classList.toggle(
+            "active",
+            mode === "box"
+        );
+
+
+    document
+        .getElementById(
+            "polygonModeButton"
+        )
+        .classList.toggle(
+            "active",
+            mode === "polygon"
+        );
+
+
+    const hint =
+        document.getElementById(
+            "toolHint"
+        );
+
+
+    if (
+        mode === "polygon"
+    ) {
+
+        hint.textContent =
+            "Polygon mode: click around the visible object. Double-click the first/last area or press Enter to finish. Escape cancels.";
+
+        canvas.style.cursor =
+            "crosshair";
+
+    } else {
+
+        hint.textContent =
+            "Box mode: click and drag around the object.";
+
+        canvas.style.cursor =
+            "crosshair";
+
+    }
+
+}
+
+
+/* =========================================================
+   CANVAS DRAWING
+========================================================= */
+
+canvas.addEventListener(
+    "mousedown",
+    function (event) {
+
+        if (
+            currentIndex === -1
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            annotationMode === "polygon"
+        ) {
+
+            return;
+
+        }
+
+
+        const point =
+            getCanvasPoint(
+                event
+            );
+
+
+        drawing = true;
+
+
+        startX =
+            point.x;
+
+
+        startY =
+            point.y;
+
+    }
+);
+
+
+canvas.addEventListener(
+    "mousemove",
+    function (event) {
+
+        if (
+            annotationMode !== "box" ||
+            !drawing
+        ) {
+
+            if (
+                annotationMode === "polygon" &&
+                activePolygon.length > 0
+            ) {
+
+                drawBoxes();
+
+                const point =
+                    getCanvasPoint(
+                        event
+                    );
+
+                drawPolygonPreview(
+                    point
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        const point =
+            getCanvasPoint(
+                event
+            );
+
+
+        drawBoxes();
+
+
+        ctx.strokeStyle =
+            "#ffffff";
+
+
+        ctx.lineWidth =
+            2;
+
+
+        ctx.setLineDash(
+            [6, 4]
+        );
+
+
+        ctx.strokeRect(
+
+            startX,
+
+            startY,
+
+            point.x - startX,
+
+            point.y - startY
+
+        );
+
+
+        ctx.setLineDash([]);
+
+    }
+);
+
+
+canvas.addEventListener(
+    "mouseup",
+    function (event) {
+
+        if (
+            annotationMode !== "box" ||
+            !drawing
+        ) {
+
+            return;
+
+        }
+
+
+        drawing = false;
+
+
+        const point =
+            getCanvasPoint(
+                event
+            );
+
+
+        const x =
+            Math.min(
+                startX,
+                point.x
+            );
+
+
+        const y =
+            Math.min(
+                startY,
+                point.y
+            );
+
+
+        const width =
+            Math.abs(
+                point.x -
+                startX
+            );
+
+
+        const height =
+            Math.abs(
+                point.y -
+                startY
+            );
+
+
+        if (
+            width < 8 ||
+            height < 8
+        ) {
+
+            return;
+
+        }
+
+
+        addBoxObject(
+            x,
+            y,
+            width,
+            height
+        );
+
+    }
+);
+
+
+/* =========================================================
+   POLYGON CLICK
+========================================================= */
+
+canvas.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            annotationMode !== "polygon" ||
+            currentIndex === -1
+        ) {
+
+            return;
+
+        }
+
+
+        const point =
+            getCanvasPoint(
+                event
+            );
+
+
+        activePolygon.push(
+            point
+        );
+
+
+        drawBoxes();
+
+        drawPolygonPreview();
+
+    }
+);
+
+
+/* =========================================================
+   DOUBLE CLICK = FINISH POLYGON
+========================================================= */
+
+canvas.addEventListener(
+    "dblclick",
+    function (event) {
+
+        if (
+            annotationMode !== "polygon" ||
+            activePolygon.length < 3
+        ) {
+
+            return;
+
+        }
+
+
+        event.preventDefault();
+
+
+        finishPolygon();
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD POLYGON CONTROLS
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            annotationMode !== "polygon"
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            if (
+                activePolygon.length >= 3
+            ) {
+
+                finishPolygon();
+
+            }
+
+        }
+
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            activePolygon = [];
+
+            drawBoxes();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ADD BOX
+========================================================= */
+
+function addBoxObject(
+    x,
+    y,
+    width,
+    height
+) {
+
+    const imageWidth =
+        canvas.width;
+
+
+    const imageHeight =
+        canvas.height;
+
+
+    objects.push({
+
+        class_id:
+            currentTool,
+
+        cx:
+            (
+                x +
+                width / 2
+            ) /
+            imageWidth,
+
+        cy:
+            (
+                y +
+                height / 2
+            ) /
+            imageHeight,
+
+        width:
+            width /
+            imageWidth,
+
+        height:
+            height /
+            imageHeight,
+
+        segmentation:
+            null
+
+    });
+
+
+    drawBoxes();
+
+    renderObjectList();
+
+}
+
+
+/* =========================================================
+   FINISH POLYGON
+========================================================= */
+
+function finishPolygon() {
+
+    if (
+        activePolygon.length < 3
+    ) {
+
+        return;
+
+    }
+
+
+    const imageWidth =
+        canvas.width;
+
+
+    const imageHeight =
+        canvas.height;
+
+
+    const points =
+        activePolygon.map(
+            point => ({
+
+                x:
+                    point.x,
+
+                y:
+                    point.y
+
+            })
+        );
+
+
+    const xs =
+        points.map(
+            point => point.x
+        );
+
+
+    const ys =
+        points.map(
+            point => point.y
+        );
+
+
+    const minX =
+        Math.min(...xs);
+
+
+    const maxX =
+        Math.max(...xs);
+
+
+    const minY =
+        Math.min(...ys);
+
+
+    const maxY =
+        Math.max(...ys);
+
+
+    const width =
+        maxX - minX;
+
+
+    const height =
+        maxY - minY;
+
+
+    if (
+        width < 5 ||
+        height < 5
+    ) {
+
+        activePolygon = [];
+
+        drawBoxes();
+
+        return;
+
+    }
+
+
+    objects.push({
+
+        class_id:
+            currentTool,
+
+        cx:
+            (
+                minX +
+                width / 2
+            ) /
+            imageWidth,
+
+        cy:
+            (
+                minY +
+                height / 2
+            ) /
+            imageHeight,
+
+        width:
+            width /
+            imageWidth,
+
+        height:
+            height /
+            imageHeight,
+
+        segmentation:
+            points.map(
+                point => [
+
+                    point.x /
+                    imageWidth,
+
+                    point.y /
+                    imageHeight
+
+                ]
+            )
+
+    });
+
+
+    activePolygon = [];
+
+
+    drawBoxes();
+
+    renderObjectList();
+
+
+    setStatus(
+        "✓ Polygon segmentation added for " +
+        CLASS_NAMES[currentTool] +
+        "."
+    );
+
+}
+
+
+/* =========================================================
+   DRAW POLYGON PREVIEW
+========================================================= */
+
+function drawPolygonPreview(
+    cursorPoint = null
+) {
+
+    if (
+        activePolygon.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    ctx.beginPath();
+
+
+    activePolygon.forEach(
+        (point, index) => {
+
+            if (
+                index === 0
+            ) {
+
+                ctx.moveTo(
+                    point.x,
+                    point.y
+                );
+
+            } else {
+
+                ctx.lineTo(
+                    point.x,
+                    point.y
+                );
+
+            }
+
+        }
+    );
+
+
+    if (
+        cursorPoint
+    ) {
+
+        ctx.lineTo(
+            cursorPoint.x,
+            cursorPoint.y
+        );
+
+    }
+
+
+    ctx.strokeStyle =
+        "#12b76a";
+
+
+    ctx.lineWidth =
+        2;
+
+
+    ctx.setLineDash(
+        [6, 4]
+    );
+
+
+    ctx.stroke();
+
+
+    ctx.setLineDash([]);
+
+
+    activePolygon.forEach(
+        point => {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                point.x,
+                point.y,
+                4,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                "#ffffff";
+
+            ctx.fill();
+
+            ctx.strokeStyle =
+                "#12b76a";
+
+            ctx.lineWidth =
+                2;
+
+            ctx.stroke();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CANVAS POINT
+========================================================= */
+
+
+
+function getCanvasPoint(
+    event
+) {
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+
+    return {
+
+        x:
+            event.clientX -
+            rect.left,
+
+        y:
+            event.clientY -
+            rect.top
+
+    };
+
+}
+
+
+/* =========================================================
+   DRAW BOXES + POLYGONS
+========================================================= */
+
+function drawBoxes() {
+
+    if (
+        !canvas.width ||
+        !canvas.height
+    ) {
+
+        return;
+
+    }
+
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    objects.forEach(
+        (obj, index) => {
+
+            const width =
+                obj.width *
+                canvas.width;
+
+
+            const height =
+                obj.height *
+                canvas.height;
+
+
+            const x =
+                (
+                    obj.cx *
+                    canvas.width
+                ) -
+                width / 2;
+
+
+            const y =
+                (
+                    obj.cy *
+                    canvas.height
+                ) -
+                height / 2;
+
+
+            const color =
+                getClassColor(
+                    obj.class_id
+                );
+
+
+            /*
+             * Segmentation polygon
+             *
+             * Stored normalized:
+             * [x / imageWidth, y / imageHeight]
+             */
+
+            if (
+                Array.isArray(
+                    obj.segmentation
+                ) &&
+                obj.segmentation.length >= 3
+            ) {
+
+                ctx.beginPath();
+
+
+                obj.segmentation.forEach(
+                    (point, pointIndex) => {
+
+                        const px =
+                            point[0] *
+                            canvas.width;
+
+
+                        const py =
+                            point[1] *
+                            canvas.height;
+
+
+                        if (
+                            pointIndex === 0
+                        ) {
+
+                            ctx.moveTo(
+                                px,
+                                py
+                            );
+
+                        } else {
+
+                            ctx.lineTo(
+                                px,
+                                py
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                ctx.closePath();
+
+
+                ctx.fillStyle =
+                    color === "#f04438"
+                    ? "rgba(240,68,56,0.25)"
+                    : "rgba(18,183,106,0.25)";
+
+
+                ctx.fill();
+
+
+                ctx.strokeStyle =
+                    color;
+
+
+                ctx.lineWidth =
+                    2;
+
+
+                ctx.stroke();
+
+            }
+
+
+            /*
+             * Bounding box
+             */
+
+            ctx.strokeStyle =
+                color;
+
+
+            ctx.lineWidth =
+                3;
+
+
+            ctx.strokeRect(
+                x,
+                y,
+                width,
+                height
+            );
+
+
+            /*
+             * Label
+             */
+
+            ctx.fillStyle =
+                color;
+
+
+            ctx.font =
+                "bold 12px Arial";
+
+
+            const segmented =
+                Array.isArray(
+                    obj.segmentation
+                ) &&
+                obj.segmentation.length >= 3;
+
+
+            const text =
+                (
+                    index + 1
+                ) +
+                " · " +
+                CLASS_NAMES[
+                    obj.class_id
+                ] +
+                (
+                    segmented
+                    ? " · SEG"
+                    : ""
+                );
+
+
+            const textWidth =
+                ctx.measureText(
+                    text
+                ).width;
+
+
+            ctx.fillRect(
+
+                x,
+
+                Math.max(
+                    0,
+                    y - 20
+                ),
+
+                textWidth + 10,
+
+                20
+
+            );
+
+
+            ctx.fillStyle =
+                "#ffffff";
+
+
+            ctx.fillText(
+
+                text,
+
+                x + 5,
+
+                Math.max(
+                    14,
+                    y - 6
+                )
+
+            );
+
+        }
+    );
+
+
+    /*
+     * Active polygon being drawn
+     */
+
+    if (
+        annotationMode === "polygon" &&
+        activePolygon.length > 0
+    ) {
+
+        drawPolygonPreview();
+
+    }
+
+}
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+
+
+function getClassColor(
+    classId
+) {
+
+    const colors = {
+
+        0: "#1677ff",
+
+        1: "#f79009",
+
+        2: "#12b76a",
+
+        3: "#f04438"
+
+    };
+
+
+    return colors[
+        classId
+    ];
+
+}
+
+
+/* =========================================================
+   OBJECT LIST
+========================================================= */
+
+function renderObjectList() {
+
+    objectList.innerHTML = "";
+
+
+    if (
+        !objects.length
+    ) {
+
+        objectList.innerHTML = `
+
+            <div class="no-objects">
+
+                Draw a box on the image
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    objects.forEach(
+        (obj, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "object-item";
+
+
+            row.innerHTML = `
+
+                <div class="object-left">
+
+                    <span
+                        class="object-color"
+                        style="
+                            background:
+                            ${getClassColor(obj.class_id)}
+                        "
+                    ></span>
+
+                    <span class="object-name">
+
+                        ${index + 1}.
+                        ${CLASS_NAMES[obj.class_id]}
+                        ${
+                            Array.isArray(obj.segmentation) &&
+                            obj.segmentation.length >= 3
+                                ? " · SEG"
+                                : ""
+                        }
+
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="object-remove"
+                    onclick="removeObject(${index})"
+                    title="Remove annotation"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            objectList.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   REMOVE OBJECT
+========================================================= */
+
+function removeObject(
+    index
+) {
+
+    objects.splice(
+        index,
+        1
+    );
+
+
+    drawBoxes();
+
+    renderObjectList();
+
+}
+
+
+/* =========================================================
+   CLEAR BOXES
+========================================================= */
+
+function clearBoxes() {
+
+    objects = [];
+
+    activePolygon = [];
+
+    drawing = false;
+
+
+    drawBoxes();
+
+    renderObjectList();
+
+
+    setStatus(
+        "All boxes cleared."
+    );
+
+}
+
+
+/* =========================================================
+   SAVE ANNOTATION
+========================================================= */
+
+async function saveAnnotation() {
+
+    if (
+        currentIndex === -1
+    ) {
+
+        setStatus(
+            "Please upload an image first."
+        );
+
+        return;
+
+    }
+
+
+    const view =
+        document.getElementById(
+            "view"
+        ).value;
+
+
+    if (!view) {
+
+        setStatus(
+            "Please select the image view / side."
+        );
+
+        return;
+
+    }
+
+
+    const image =
+        images[currentIndex];
+
+
+    try {
+
+        setStatus(
+            "Saving annotation..."
+        );
+
+
+        const response =
+            await fetch(
+                "/training/annotate",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            image_id:
+                                image.id,
+
+                            view:
+                                view,
+
+                            objects:
+                                objects
+
+                        })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const error =
+                await response.json();
+
+
+            throw new Error(
+                error.detail ||
+                "Annotation failed"
+            );
+
+        }
+
+
+        image.annotated =
+            true;
+
+
+        image.savedObjects =
+            [...objects];
+
+        image.view =
+            view;
+
+        const segmentationCount =
+            objects.filter(
+                obj =>
+                    Array.isArray(obj.segmentation) &&
+                    obj.segmentation.length >= 3
+            ).length;
+
+        renderThumbnails();
+
+
+        await refreshDataset();
+
+
+        setStatus(
+            "✓ Annotation saved successfully. " +
+            segmentationCount +
+            " segmentation(s) saved."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        setStatus(
+            "Failed to save annotation: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DATASET
+========================================================= */
+
+async function refreshDataset() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/training/dataset"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        document.getElementById(
+            "imageCount"
+        ).textContent =
+            data.images;
+
+
+        document.getElementById(
+            "annotationCount"
+        ).textContent =
+            data.annotations;
+
+
+        const percentage =
+            data.images > 0
+            ? Math.round(
+
+                (
+                    data.annotations /
+                    data.images
+                ) * 100
+
+            )
+            : 0;
+
+
+        document.getElementById(
+            "completion"
+        ).textContent =
+            percentage + "%";
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function previousImage() {
+
+    if (
+        currentIndex <= 0
+    ) {
+
+        return;
+
+    }
+
+
+    selectImage(
+        currentIndex - 1
+    );
+
+}
+
+
+function nextImage() {
+
+    if (
+        currentIndex >=
+        images.length - 1
+    ) {
+
+        return;
+
+    }
+
+
+    selectImage(
+        currentIndex + 1
+    );
+
+}
+
+
+/* =========================================================
+   KEYBOARD NAVIGATION
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.target.tagName ===
+            "SELECT"
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            event.key ===
+            "ArrowLeft"
+        ) {
+
+            previousImage();
+
+        }
+
+
+        if (
+            event.key ===
+            "ArrowRight"
+        ) {
+
+            nextImage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(
+    message
+) {
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   TRAINING MODAL
+========================================================= */
+
+function openTrainingModal() {
+
+    const modal =
+        document.getElementById(
+            "trainingModal"
+        );
+
+
+    modal.style.display =
+        "flex";
+
+
+    document.getElementById(
+        "trainingModalIcon"
+    ).textContent =
+        "🚀";
+
+
+    document.getElementById(
+        "trainingModalTitle"
+    ).textContent =
+        "Training in Progress";
+
+
+    document.getElementById(
+        "trainingModalSubtitle"
+    ).textContent =
+        "Vision Wings is training the inspection model.";
+
+
+    document.getElementById(
+        "trainingRunning"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "trainingResults"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "trainingError"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "trainingOkButton"
+    ).disabled =
+        true;
+
+}
+
+
+/* =========================================================
+   START TRAINING
+========================================================= */
+
+async function startTraining() {
+
+    /* ---------------------------------------------
+       PREVENT MULTIPLE CLICKS
+    --------------------------------------------- */
+
+    if (
+        trainingRunning
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        images.length === 0
+    ) {
+
+        setStatus(
+            "Add training images before starting training."
+        );
+
+        return;
+
+    }
+
+
+    trainingRunning =
+        true;
+
+
+    trainingButton.disabled =
+        true;
+
+
+    trainingButton.textContent =
+        "🔥 Training Running...";
+
+
+    openTrainingModal();
+
+
+    setStatus(
+        "🚀 Starting GPU training..."
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/training/train",
+                {
+
+                    method: "POST"
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Training failed to start."
+            );
+
+        }
+
+
+        document.getElementById(
+            "trainingProgressText"
+        ).textContent =
+
+            "Training " +
+            (
+                data.training_images ||
+                images.length
+            ) +
+            " images on the GPU. Please wait...";
+
+
+        setStatus(
+            "🔥 GPU training is running..."
+        );
+
+
+        pollTrainingStatus();
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        showTrainingError(
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   POLL TRAINING STATUS
+========================================================= */
+
+async function pollTrainingStatus() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/training/train/status"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Vision Wings training status:",
+            data
+        );
+
+
+        /* -----------------------------------------
+           RUNNING
+        ----------------------------------------- */
+
+        if (
+            data.status ===
+            "running"
+        ) {
+
+            document.getElementById(
+                "trainingProgressText"
+            ).textContent =
+                data.message ||
+                "GPU training is running...";
+
+
+            setTimeout(
+                pollTrainingStatus,
+                3000
+            );
+
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------
+           STARTING
+        ----------------------------------------- */
+
+        if (
+            data.status ===
+            "starting"
+        ) {
+
+            document.getElementById(
+                "trainingProgressText"
+            ).textContent =
+                "Preparing GPU training...";
+
+
+            setTimeout(
+                pollTrainingStatus,
+                2000
+            );
+
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------
+           COMPLETED
+        ----------------------------------------- */
+
+        if (
+            data.status ===
+            "completed"
+        ) {
+
+            showTrainingResults(
+                data
+            );
+
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------
+           ERROR
+        ----------------------------------------- */
+
+        if (
+            data.status ===
+            "error"
+        ) {
+
+            showTrainingError(
+                data.message ||
+                "Training failed."
+            );
+
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------
+           UNKNOWN STATUS
+        ----------------------------------------- */
+
+        setTimeout(
+            pollTrainingStatus,
+            3000
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Training status error:",
+            error
+        );
+
+
+        setTimeout(
+            pollTrainingStatus,
+            5000
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SHOW TRAINING RESULTS
+========================================================= */
+
+function showTrainingResults(
+    data
+) {
+
+    trainingRunning =
+        false;
+
+
+    const metrics =
+        data.metrics ||
+        {};
+
+
+    document.getElementById(
+        "trainingRunning"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "trainingResults"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "trainingError"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "trainingModalIcon"
+    ).textContent =
+        "✅";
+
+
+    document.getElementById(
+        "trainingModalTitle"
+    ).textContent =
+        "Training Complete";
+
+
+    document.getElementById(
+        "trainingModalSubtitle"
+    ).textContent =
+        "Your Vision Wings model has been successfully trained.";
+
+
+    document.getElementById(
+        "resultMap50"
+    ).textContent =
+        formatMetric(
+            metrics.map50
+        );
+
+
+    document.getElementById(
+        "resultMap95"
+    ).textContent =
+        formatMetric(
+            metrics.map50_95
+        );
+
+
+    document.getElementById(
+        "resultPrecision"
+    ).textContent =
+        formatMetric(
+            metrics.precision
+        );
+
+
+    document.getElementById(
+        "resultRecall"
+    ).textContent =
+        formatMetric(
+            metrics.recall
+        );
+
+
+    document.getElementById(
+        "trainedModel"
+    ).textContent =
+        "Trained model: " +
+        (
+            metrics.model ||
+            "best.pt"
+        );
+
+
+    document.getElementById(
+        "trainingOkButton"
+    ).disabled =
+        false;
+
+
+    trainingButton.disabled =
+        false;
+
+
+    trainingButton.textContent =
+        "🚀 Start Model Training";
+
+
+    setStatus(
+        "✅ Model training completed successfully."
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT METRIC
+========================================================= */
+
+function formatMetric(
+    value
+) {
+
+    if (
+        value === undefined ||
+        value === null ||
+        Number.isNaN(
+            Number(value)
+        )
+    ) {
+
+        return "—";
+
+    }
+
+
+    return (
+
+        Number(value) *
+        100
+
+    ).toFixed(1) + "%";
+
+}
+
+
+/* =========================================================
+   TRAINING ERROR
+========================================================= */
+
+function showTrainingError(
+    message
+) {
+
+    trainingRunning =
+        false;
+
+
+    document.getElementById(
+        "trainingRunning"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "trainingResults"
+    ).style.display =
+        "none";
+
+
+    const errorBox =
+        document.getElementById(
+            "trainingError"
+        );
+
+
+    errorBox.style.display =
+        "block";
+
+
+    errorBox.textContent =
+        "❌ " +
+        message;
+
+
+    document.getElementById(
+        "trainingModalIcon"
+    ).textContent =
+        "⚠️";
+
+
+    document.getElementById(
+        "trainingModalTitle"
+    ).textContent =
+        "Training Error";
+
+
+    document.getElementById(
+        "trainingModalSubtitle"
+    ).textContent =
+        "The model training process reported an error.";
+
+
+    document.getElementById(
+        "trainingOkButton"
+    ).disabled =
+        false;
+
+
+    trainingButton.disabled =
+        false;
+
+
+    trainingButton.textContent =
+        "🚀 Start Model Training";
+
+
+    setStatus(
+        "❌ " +
+        message
+    );
+
+}
+
+
+/* =========================================================
+   FINISH MODAL
+========================================================= */
+async function finishTrainingModal() {
+
+    const button =
+        document.getElementById(
+            "trainingOkButton"
+        );
+
+
+    if (
+        button.disabled
+    ) {
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent = "Resetting...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/training/batch/complete",
+                {
+                    method: "POST"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Could not complete training batch."
+            );
+
+        }
+
+
+        console.log(
+            "Completed batch:",
+            data.completed_batch
+        );
+
+
+        console.log(
+            "New batch:",
+            data.new_batch
+        );
+
+
+        /*
+           The old batch is safely archived
+           on the server.
+
+           Reload the page so the UI loads
+           the newly created empty batch.
+        */
+
+        window.location.reload();
+
+
+    } catch (error) {
+
+        console.error(
+            "Batch reset error:",
+            error
+        );
+
+
+        button.disabled = false;
+
+        button.textContent = "OK";
+
+
+        setStatus(
+            "Could not reset training workspace: " +
+            error.message
+        );
+
+    }
+
+}
+/* =========================================================
+   LOAD SAVED IMAGES
+========================================================= */
+
+async function loadSavedImages() {
+
+    try {
+
+        setStatus(
+            "Loading saved training images..."
+        );
+
+
+        const response =
+            await fetch(
+                "/training/images"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load saved images."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        images =
+            data.images.map(
+                image => ({
+
+                    id:
+                        image.id,
+
+                    filename:
+                        image.filename,
+
+                    url:
+                        image.url,
+
+                    annotated:
+                        image.annotated,
+
+                    view:
+                        image.view ||
+                        "",
+
+                    savedObjects:
+                        image.objects ||
+                        []
+
+                })
+            );
+
+
+        renderThumbnails();
+
+
+        if (
+            images.length > 0
+        ) {
+
+            selectImage(
+                0
+            );
+
+
+            objects =
+                images[0].savedObjects ||
+                [];
+
+
+            drawBoxes();
+
+
+            renderObjectList();
+
+
+            setStatus(
+                "✓ Loaded " +
+                images.length +
+                " saved training images."
+            );
+
+        } else {
+
+            setStatus(
+                "No saved training images yet."
+            );
+
+        }
+
+
+        await refreshDataset();
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        setStatus(
+            "Could not load saved training images: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+setAnnotationMode("box");
+
+loadSavedImages();
+
+</script>
+
+
+</body>
+
+</html>

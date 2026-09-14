@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+.venv_rtm/
+venv/
+env/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Testing / caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.cache
+
+# Training outputs
+runs/
+wandb/
+mlruns/
+
+# Model weights / checkpoints
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Private / generated datasets
+data/raw/
+data/synthetic/
+data/combined/
+data/synthetic_test/
+data/synthetic_test2/
+data/synthetic_6view_test/
+data/view_classification/
+data/strap_quality/
+data/view_router_real/
+data/suspension_classification/
+data/training/
+
+# Generated/private manifests
+data/manifests/host_*.csv
+
+# Private images
+*.jpg
+*.jpeg
+*.png
+*.webp
+
+# Logs / temporary files
+*.log
+*.tmp
+
+# Environment secrets
+.env
+.env.*
+
+# SAM / experimental artifacts
+sam_b.ptdata/yolo/
